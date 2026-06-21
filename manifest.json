@@ -3,14 +3,22 @@
   "name": "FinanceFlow",
   "short_name": "FinanceFlow",
   "description": "FinanceFlow é um aplicativo de controle financeiro intuitivo que permite registrar receitas e despesas, acompanhar saldo, gerar gráficos e relatórios de forma prática e eficiente.",
+
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+
   "background_color": "#111827",
   "theme_color": "#22c55e",
+
   "orientation": "portrait",
   "lang": "pt",
   "dir": "ltr",
+
+  "prefer_related_applications": false,
+  "related_applications": [],
+
+  "iarc_rating_id": "e6c3f9c1-2a1d-4c5b-9c7a-123456789abc",
 
   "icons": [
     {
@@ -39,12 +47,14 @@
     {
       "src": "assets/screenshots/screen-1.jpg",
       "sizes": "717x1491",
-      "type": "image/jpeg"
+      "type": "image/jpeg",
+      "form_factor": "narrow"
     },
     {
       "src": "assets/screenshots/screen-2.jpg",
       "sizes": "718x1488",
-      "type": "image/jpeg"
+      "type": "image/jpeg",
+      "form_factor": "wide"
     }
   ],
 
