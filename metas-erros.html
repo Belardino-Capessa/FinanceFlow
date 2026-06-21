@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinanceFlow - Metas</title>
+  <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+
+  <style>
+  /* Definição das variáveis de cores e outros valores */
+:root {
+  --cor-fundo-claro: #F4F7F9;
+  --cor-fundo-escuro: #203A43;
+  --cor-card-claro: #fff;
+  --cor-card-escuro: #2C3E50;
+  --cor-texto-claro: #333;
+  --cor-texto-escuro: #fff;
+  --cor-header-claro: #f4f7f9; 
+  --cor-header-escuro: #203a43;
+  --cor-destaque-claro: #1abc9c;
+  --cor-destaque-escuro: #1abc9c;
+  --cor-principal-claro: #1abc9c;
+  --cor-principal-escuro: #1abc9c;
+  --cor-secundaria-claro: #f0f0f0;
+  --cor-secundaria-escuro: #34495e;
+  --cor-ganho: #28a745; /* CORRIGIDO: de --cor-receita */
+  --cor-gasto: #dc3545; /* CORRIGIDO: de --cor-despesa */
+  --sombra: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('assets/fontes/Nunito-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+}
+
+@font-face {
+  font-family: 'Nunito-Italic';
+  src: url('assets/fontes/Nunito-italic-VariableFont_wght.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 100 900;
+}
+
+/* ---------------------------------
+   Estilos globais e de layout
+   --------------------------------- */
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+  -webkit-tap-highlight-color: transparent; 
+  user-select: none; 
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--cor-fundo-claro);
+  color: var(--cor-texto-claro);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: 17px;
+  transition: background 0.4s, color 0.4s;
+}
+
+body.dark { 
+  background: var(--cor-fundo-escuro); 
+  color: var(--cor-texto-escuro); 
+}
+
+/* ---------------------------------
+   Transição de Tela
+   --------------------------------- */
+.page-transition { animation: fadein 0.5s ease-in-out; }
+.page-exit { animation: fadeout 0.5s ease-in-out forwards; }
+
+@keyframes fadein { 
+  from { opacity: 0; transform: scale(0.95); } 
+  to { opacity: 1; transform: scale(1); } 
+}
+
+@keyframes fadeout { 
+  from { opacity: 1; transform: scale(1); } 
+  to { opacity: 0; transform: scale(0.95); } 
+}
+
+
+header {
+      background: var(--cor-header-claro);
+      color: var(--cor-texto-claro);
+      padding: 18px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: background 0.4s, color 0.4s;
+    }
+ body.dark header {
+      background: var(--cor-header-escuro);
+      color: var(--cor-texto-escuro);
+    }
+
+main { 
+  flex: 1; 
+  padding: 22px; 
+  padding-bottom: 90px; 
+}
+
+.card {
+  background: var(--cor-card-claro);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--sombra);
+  margin-bottom: 22px;
+  transition: background 0.4s, color 0.4s;
+}
+
+body.dark .card { 
+  background: var(--cor-card-escuro); 
+  color: var(--cor-texto-escuro); 
+}
+
+.card h2 { 
+  font-size: 18px; 
+  margin-bottom: 12px; 
+}
+
+.card-resumo {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  text-align: center;
+}
+
+.card-resumo > div {
+  flex: 1;
+}
+
+.card-resumo h3 {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: var(--cor-texto-claro);
+  opacity: 0.8;
+}
+
+body.dark .card-resumo h3 {
+  color: var(--cor-texto-escuro);
+  opacity: 0.8;
+}
+
+.card-resumo p {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--cor-header-escuro);
+}
+
+body.dark .card-resumo p {
+  color: var(--cor-destaque-escuro);
+}
+
+/* Estilos do formulário */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-container input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+body.dark .form-container input { 
+  background: var(--cor-secundaria-escuro); 
+  color: var(--cor-texto-escuro); 
+  border: 1px solid #555; 
+}
+
+#form-meta #meta-index { 
+  display: none; 
+}
+
+.form-container button {
+  background: var(--cor-header-escuro);
+  color: var(--cor-texto-escuro);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form-container button#btn-cancelar-edicao {
+  background: var(--cor-secundaria-claro);
+  color: var(--cor-texto-claro);
+}
+
+.form-container button#btn-cancelar-edicao:hover { 
+  background: #e0e0e0; 
+}
+
+.form-container button:hover { 
+  background: var(--cor-principal-claro); 
+}
+
+/* Estilos da lista de metas */
+.lista-metas {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  background: var(--cor-secundaria-claro);
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: background 0.4s, color 0.4s, opacity 0.4s;
+}
+
+body.dark .meta-item { 
+  background: var(--cor-secundaria-escuro); 
+  color: var(--cor-texto-escuro); 
+}
+
+.meta-item .meta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.meta-item .meta-header h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.meta-item .meta-header .meta-valor {
+  font-weight: bold;
+  color: var(--cor-header-escuro);
+}
+
+body.dark .meta-item .meta-header .meta-valor { 
+  color: var(--cor-destaque-escuro); 
+}
+
+.meta-item .meta-header .meta-valor span {
+  font-size: 14px;
+  color: var(--cor-texto-claro);
+  opacity: 0.6;
+}
+
+body.dark .meta-item .meta-header .meta-valor span { 
+  color: var(--cor-texto-escuro); 
+  opacity: 0.6;
+}
+
+/* Barra de progresso */
+.barra-progresso {
+  background-color: #eee;
+  border-radius: 50px;
+  height: 10px;
+  width: 100%;
+  margin-top: 5px;
+}
+
+body.dark .barra-progresso { 
+  background-color: #555; 
+}
+
+.progresso-fill {
+  background-color: var(--cor-destaque-claro);
+  height: 100%;
+  border-radius: 50px;
+  transition: width 0.5s ease-in-out;
+}
+
+.meta-detalhes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--cor-texto-claro);
+  opacity: 0.7;
+}
+
+body.dark .meta-detalhes { 
+  color: var(--cor-texto-escuro); 
+  opacity: 0.7;
+}
+
+.meta-detalhes .progresso-texto {
+  font-weight: bold;
+}
+
+.meta-acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.meta-acoes button {
+  background: #ccc;
+  color: var(--cor-texto-escuro);
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* CORRIGIDO: Usando cor-gasto */
+.meta-acoes .btn-apagar { 
+  background: var(--cor-gasto); 
+}
+
+.meta-acoes .btn-apagar:hover { 
+  background: #c82333; 
+}
+
+.meta-acoes .btn-editar { 
+  background: var(--cor-header-escuro); 
+}
+
+.meta-acoes .btn-editar:hover { 
+  background: #1a2b33; 
+}
+
+/* CORRIGIDO: Usando cor-ganho */
+.meta-acoes .btn-concluir { 
+  background: var(--cor-ganho); 
+}
+
+.meta-acoes .btn-concluir:hover { 
+  background: #218838; 
+}
+
+/* --- Estilos do Rodapé (Replicado do Home) --- */
+.footer { 
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    background: var(--cor-header-escuro); 
+    display: flex; 
+    justify-content: space-around; 
+    padding: 10px 0; 
+    color: #fff; 
+    font-family: 'Nunito', sans-serif; 
+    border-top: 1px solid rgba(255,255,255,0.1); 
+    z-index: 999;
+}
+
+.footer .nav-item { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  font-size: 13px; 
+  color: #bbb; 
+  flex: 1; 
+  transition: 0.3s; 
+  cursor: pointer; 
+}
+
+.footer .nav-item i { 
+  font-size: 20px; 
+  margin-bottom: 4px; 
+}
+
+.footer .nav-item.active { 
+  color: var(--cor-destaque-claro); 
+}
+
+.footer .nav-item.active i { 
+  color: var(--cor-destaque-claro); 
+}
+
+.footer .nav-item:hover { 
+  color: var(--cor-destaque-claro); 
+}
+
+.assinatura { 
+  text-align: center; 
+  font-size: 11px; 
+  margin: 5px 0; 
+  color: #666; 
+}
+
+.completed-meta {
+  opacity: 0.6;
+}
+
+/* CORRIGIDO: Usando cor-ganho */
+.completed-meta .progresso-fill {
+  background-color: var(--cor-ganho) !important;
+}
+
+.completed-meta .meta-acoes .btn-concluir {
+  background: var(--cor-secundaria-claro);
+  color: var(--cor-ganho); /* CORRIGIDO: Usando cor-ganho */
+}
+
+.completed-meta .meta-acoes {
+  justify-content: center;
+}
+
+.completed-meta .meta-acoes button {
+  width: 45px;
+}
+
+/* Mensagem de sucesso */
+/* CORRIGIDO: Usando cor-ganho */
+#feedback-message {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--cor-ganho);
+  color: var(--cor-texto-escuro);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+  </style>
+</head>
+<body>
+  <header data-i18n="header_metas">Metas e Orçamentos</header>
+
+  <main>
+    <div id="feedback-message"></div>
+    
+    <div class="card card-resumo">
+        <div>
+            <h3 data-i18n="total_metas">Total de Metas</h3>
+            <p id="total-metas">0</p>
+        </div>
+        <div>
+            <h3 data-i18n="valor_total_metas">Valor Total das Metas</h3>
+            <p id="valor-total-metas">Kz 0,00</p>
+        </div>
+        <div>
+            <h3 data-i18n="valor_total_economizado">Valor Total Economizado</h3>
+            <p id="valor-total-economizado">Kz 0,00</p>
+        </div>
+    </div>
+
+    <div class="card">
+      <h2 data-i18n="nova_meta">Criar Nova Meta</h2>
+      <form id="form-meta" class="form-container">
+        <input type="hidden" id="meta-index">
+        <label for="nome-meta" data-i18n="nome_meta">Nome da Meta</label>
+        <input type="text" id="nome-meta" required>
+
+        <label for="valor-meta" data-i18n="valor_meta">Valor da Meta</label>
+        <input type="number" id="valor-meta" step="0.01" required>
+
+        <label for="valor-atual" data-i18n="valor_atual">Valor Já Economizado</label>
+        <input type="number" id="valor-atual" step="0.01" value="0">
+        
+        <div style="display: flex; gap: 10px;">
+          <button type="submit" id="btn-salvar" data-i18n="salvar_meta">Salvar Meta</button>
+          <button type="button" id="btn-cancelar-edicao" style="display: none;" data-i18n="cancelar_edicao">Cancelar</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2 data-i18n="suas_metas">Suas Metas</h2>
+      <ul id="lista-metas" class="lista-metas">
+        <li class="meta-item" data-i18n="nenhuma_meta">Nenhuma meta encontrada.</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h2 data-i18n="metas_concluidas">Metas Concluídas</h2>
+      <ul id="lista-metas-concluidas" class="lista-metas">
+        <li class="meta-item" data-i18n="nenhuma_meta_concluida">Nenhuma meta concluída.</li>
+      </ul>
+    </div>
+  </main>
+
+
+<footer class="footer" id="main-footer">
+  <div class="nav-item" data-page="home.html" onclick="navegar('home.html')"><i class="fas fa-home"></i><span data-i18n="inicio">Início</span></div>
+  <div class="nav-item" data-page="transacoes.html" onclick="navegar('transacoes.html')"><i class="fas fa-list-alt"></i><span data-i18n="historico_nav">Movimentos</span></div>
+  <div class="nav-item" data-page="relatorios.html" onclick="navegar('relatorios.html')"><i class="fas fa-chart-bar"></i><span data-i18n="relatorios">Relatórios</span></div>
+  <div class="nav-item active" data-page="metas.html" onclick="navegar('metas.html')"><i class="fas fa-bullseye"></i><span data-i18n="metas">Metas</span></div>
+  <div class="nav-item" data-page="configuracoes.html" onclick="navegar('configuracoes.html')"><i class="fas fa-cog"></i><span data-i18n="configuracoes">Ajustes</span></div>
+</footer>
+  <div class="assinatura" data-i18n="criador">Criado por Belardino Capessa</div>
+  
+  <script>
+    /* ---------------------------
+   Traduções e Ícones
+   --------------------------- */
+
+const textos = {
+  pt: {
+    header_metas: "Metas",
+    total_metas: "Total de Metas",
+    valor_total_metas: "Valor Total das Metas",
+    valor_total_economizado: "Valor Total Economizado",
+    nova_meta: "Criar Nova Meta",
+    nome_meta: "Nome da Meta",
+    valor_meta: "Valor da Meta",
+    valor_atual: "Valor Já Economizado",
+    salvar_meta: "Salvar Meta",
+    suas_metas: "Suas Metas",
+    nenhuma_meta: "Nenhuma meta encontrada.",
+    metas_concluidas: "Metas Concluídas",
+    nenhuma_meta_concluida: "Nenhuma meta concluída.",
+    inicio: "Início",
+    transacoes: "Transações",
+    relatorios: "Relatórios",
+    metas: "Metas",
+    sobre: "Sobre",
+    configuracoes: "Configurações",
+    criador: "Criado por Belardino Capessa",
+    editar: "Editar",
+    concluir: "Concluir",
+    apagar: "Apagar",
+    cancelar_edicao: "Cancelar",
+    confirmar_apagar: "Tem certeza que deseja apagar esta meta?",
+    confirmar_concluir: "Tem certeza que deseja concluir esta meta?",
+    meta_salva: "Meta salva com sucesso!",
+    meta_atualizada: "Meta atualizada com sucesso!",
+    meta_concluida: "Meta concluída! Parabéns!",
+    meta_apagada: "Meta apagada.",
+    falta: "Falta:",
+    erro_validacao: "Por favor, preencha todos os campos corretamente."
+  },
+  en: {
+    header_metas: "Goals",
+    total_metas: "Total Goals",
+    valor_total_metas: "Total Goal Amount",
+    valor_total_economizado: "Total Saved Amount",
+    nova_meta: "Create New Goal",
+    nome_meta: "Goal Name",
+    valor_meta: "Goal Amount",
+    valor_atual: "Current Amount Saved",
+    salvar_meta: "Save Goal",
+    suas_metas: "Your Goals",
+    nenhuma_meta: "No goals found.",
+    metas_concluidas: "Completed Goals",
+    nenhuma_meta_concluida: "No completed goals found.",
+    inicio: "Home",
+    transacoes: "Transactions",
+    relatorios: "Reports",
+    metas: "Goals",
+    sobre: "About",
+    configuracoes: "Settings",
+    criador: "Created by Belardino Capessa",
+    editar: "Edit",
+    concluir: "Complete",
+    apagar: "Delete",
+    cancelar_edicao: "Cancel",
+    confirmar_apagar: "Are you sure you want to delete this goal?",
+    confirmar_concluir: "Are you sure you want to complete this goal?",
+    meta_salva: "Goal saved successfully!",
+    meta_atualizada: "Goal updated successfully!",
+    meta_concluida: "Goal completed! Congratulations!",
+    meta_apagada: "Goal deleted.",
+    falta: "Remaining:",
+    erro_validacao: "Please fill in all fields correctly."
+  },
+  es: {
+    header_metas: "Metas",
+    total_metas: "Total de Metas",
+    valor_total_metas: "Valor Total de la Meta",
+    valor_total_economizado: "Cantidad Total Ahorrada",
+    nova_meta: "Crear Nueva Meta",
+    nome_meta: "Nombre de la Meta",
+    valor_meta: "Cantidad de la Meta",
+    valor_atual: "Cantidad Ya Ahorrada",
+    salvar_meta: "Guardar Meta",
+    suas_metas: "Tus Metas",
+    nenhuma_meta: "No se encontraron metas.",
+    metas_concluidas: "Metas Completadas",
+    nenhuma_meta_concluida: "No se encontraron metas completadas.",
+    inicio: "Inicio",
+    transacoes: "Transacciones",
+    relatorios: "Informes",
+    metas: "Metas",
+    sobre: "Acerca de",
+    configuracoes: "Configuraciones",
+    criador: "Creado por Belardino Capessa",
+    editar: "Editar",
+    concluir: "Completar",
+    apagar: "Borrar",
+    cancelar_edicao: "Cancelar",
+    confirmar_apagar: "¿Está seguro de que desea borrar esta meta?",
+    confirmar_concluir: "¿Está seguro de que desea completar esta meta?",
+    meta_salva: "¡Meta guardada con éxito!",
+    meta_atualizada: "¡Meta actualizada con éxito!",
+    meta_concluida: "¡Meta completada! ¡Felicidades!",
+    meta_apagada: "Meta borrada.",
+    falta: "Falta:",
+    erro_validacao: "Por favor, complete todos los campos correctamente."
+  },
+  fr: {
+    header_metas: "Objectifs",
+    total_metas: "Total des Objectifs",
+    valor_total_metas: "Montant Total de l'Objectif",
+    valor_total_economizado: "Montant Total Économisé",
+    nova_meta: "Créer un Nouvel Objectif",
+    nome_meta: "Nom de l'Objectif",
+    valor_meta: "Montant de l'Objectif",
+    valor_atual: "Montant Déjà Économisé",
+    salvar_meta: "Enregistrer l'Objectif",
+    suas_metas: "Vos Objectifs",
+    nenhuma_meta: "Aucun objectif trouvé.",
+    metas_concluidas: "Objectifs Terminés",
+    nenhuma_meta_concluida: "Aucun objectif terminé.",
+    inicio: "Accueil",
+    transacoes: "Transactions",
+    relatorios: "Rapports",
+    metas: "Objectifs",
+    sobre: "À propos",
+    configuracoes: "Paramètres",
+    criador: "Créé par Belardino Capessa",
+    editar: "Modifier",
+    concluir: "Terminer",
+    apagar: "Supprimer",
+    cancelar_edicao: "Annuler",
+    confirmar_apagar: "Êtes-vous sûr de vouloir supprimer cet objectif ?",
+    confirmar_concluir: "Êtes-vous sûr de vouloir terminer cet objectif ?",
+    meta_salva: "Objectif enregistré avec succès !",
+    meta_atualizada: "Objectif mis à jour avec succès !",
+    meta_concluida: "Objectif terminé ! Félicitations !",
+    meta_apagada: "Objectif supprimé.",
+    falta: "Il reste :",
+    erro_validacao: "Veuillez remplir correctement tous les champs."
+  }
+};
+
+/* ---------------------------
+   Estado e Helpers
+   --------------------------- */
+let metas = [];
+const moeda = localStorage.getItem("moeda") || "Kz";
+const locale = (localStorage.getItem('idioma') === 'pt') ? 'pt-PT' : 'en-US';
+
+// Função para navegação com transição
+function navegar(p) {
+  document.body.classList.add('page-exit');
+  setTimeout(() => {
+    window.location.href = p;
+  }, 500); // 500ms é a duração da animação
+}
+
+// Função para aplicar o idioma
+function aplicarIdioma() {
+  const idioma = localStorage.getItem('idioma') || 'pt';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (textos[idioma] && textos[idioma][key]) {
+      el.textContent = textos[idioma][key];
+    }
+  });
+  renderizarMetas();
+}
+
+// Função para mostrar mensagens de feedback
+function mostrarFeedback(message) {
+  const feedback = document.getElementById('feedback-message');
+  feedback.textContent = message;
+  feedback.style.opacity = 1;
+  setTimeout(() => {
+    feedback.style.opacity = 0;
+  }, 3000);
+}
+
+// Função principal para renderizar as metas e o resumo
+function renderizarMetas() {
+  const listaMetas = document.getElementById('lista-metas');
+  const listaMetasConcluidas = document.getElementById('lista-metas-concluidas');
+  
+  const metasAtivas = metas.filter(m => !m.concluida);
+  const metasConcluidasFiltradas = metas.filter(m => m.concluida);
+
+  // Atualizar o resumo
+  const totalMetas = metasAtivas.length;
+  const valorTotalMetas = metasAtivas.reduce((sum, m) => sum + m.valorMeta, 0);
+  const valorTotalEconomizado = metasAtivas.reduce((sum, m) => sum + m.valorAtual, 0);
+
+  document.getElementById("total-metas").textContent = totalMetas;
+  document.getElementById("valor-total-metas").textContent = moeda + " " + valorTotalMetas.toLocaleString(locale, {minimumFractionDigits: 2});
+  document.getElementById("valor-total-economizado").textContent = moeda + " " + valorTotalEconomizado.toLocaleString(locale, {minimumFractionDigits: 2});
+
+  listaMetas.innerHTML = '';
+  listaMetasConcluidas.innerHTML = '';
+  
+  // Renderizar metas ativas
+  if (metasAtivas.length === 0) {
+    const li = document.createElement('li');
+    li.className = 'meta-item';
+    li.textContent = textos[localStorage.getItem('idioma') || 'pt']['nenhuma_meta'];
+    listaMetas.appendChild(li);
+  } else {
+    metasAtivas.forEach((meta) => {
+      const progresso = Math.min((meta.valorAtual / meta.valorMeta) * 100, 100);
+      const valorFaltante = Math.max(0, meta.valorMeta - meta.valorAtual);
+      const li = document.createElement('li');
+      li.className = 'meta-item';
+      li.innerHTML = `
+        <div class="meta-header">
+          <h3>${meta.nome}</h3>
+          <span class="meta-valor">${moeda} ${meta.valorMeta.toLocaleString(locale, {minimumFractionDigits: 2})}</span>
+        </div>
+        <div class="barra-progresso">
+          <div class="progresso-fill" style="width: ${progresso}%"></div>
+        </div>
+        <div class="meta-detalhes">
+          <span>${moeda} ${meta.valorAtual.toLocaleString(locale, {minimumFractionDigits: 2})}</span>
+          <span class="progresso-texto">${progresso.toFixed(0)}%</span>
+        </div>
+        <div class="meta-detalhes">
+          <span></span>
+          <span><strong>${textos[localStorage.getItem('idioma') || 'pt']['falta']}</strong> ${moeda} ${valorFaltante.toLocaleString(locale, {minimumFractionDigits: 2})}</span>
+        </div>
+        <div class="meta-acoes">
+          <button class="btn-concluir" onclick="concluirMeta('${meta.id}')" aria-label="${textos[localStorage.getItem('idioma') || 'pt']['concluir']}"><i class="fas fa-check"></i></button>
+          <button class="btn-editar" onclick="editarMeta('${meta.id}')" aria-label="${textos[localStorage.getItem('idioma') || 'pt']['editar']}"><i class="fas fa-pen"></i></button>
+          <button class="btn-apagar" onclick="apagarMeta('${meta.id}')" aria-label="${textos[localStorage.getItem('idioma') || 'pt']['apagar']}"><i class="fas fa-trash"></i></button>
+        </div>
+      `;
+      listaMetas.appendChild(li);
+    });
+  }
+
+// Renderizar metas concluídas
+  if (metasConcluidasFiltradas.length === 0) {
+      const li = document.createElement('li');
+      li.className = 'meta-item';
+      li.textContent = textos[localStorage.getItem('idioma') || 'pt']['nenhuma_meta_concluida'];
+      listaMetasConcluidas.appendChild(li);
+  } else {
+      metasConcluidasFiltradas.forEach((meta) => {
+          const li = document.createElement('li');
+          li.className = 'meta-item completed-meta';
+          li.innerHTML = `
+              <div class="meta-header">
+                  <h3>${meta.nome}</h3>
+                  <span class="meta-valor">${moeda} ${meta.valorMeta.toLocaleString(locale, {minimumFractionDigits: 2})}</span>
+              </div>
+              <div class="barra-progresso">
+                  <div class="progresso-fill" style="width: 100%"></div>
+              </div>
+              <div class="meta-detalhes">
+                  <span>${moeda} ${meta.valorAtual.toLocaleString(locale, {minimumFractionDigits: 2})}</span>
+                  <span class="progresso-texto">100%</span>
+              </div>
+               <div class="meta-detalhes">
+                  <span></span>
+                  <span><strong>${textos[localStorage.getItem('idioma') || 'pt']['falta']}</strong> ${moeda} 0</span>
+                </div>
+              <div class="meta-acoes">
+                  <button class="btn-apagar" onclick="apagarMeta('${meta.id}')" aria-label="${textos[localStorage.getItem('idioma') || 'pt']['apagar']}"><i class="fas fa-trash"></i></button>
+              </div>
+          `;
+          listaMetasConcluidas.appendChild(li);
+      });
+  }
+}
+
+// Função para salvar uma nova meta ou atualizar uma existente
+function salvarMeta(event) {
+  event.preventDefault();
+  
+  const nomeInput = document.getElementById('nome-meta');
+  const valorMetaInput = document.getElementById('valor-meta');
+  const valorAtualInput = document.getElementById('valor-atual');
+  const metaIndexInput = document.getElementById('meta-index');
+
+  const nome = nomeInput.value.trim();
+  const valorMeta = parseFloat(valorMetaInput.value);
+  const valorAtual+244 944 422 313parseFloat(valorAtualInput.value) || 0;
+  const metaId = metaIndexInput.value;
+
+  if (!nome || isNaN(valorMeta) || valorMeta <= 0) {
+    mostrarFeedback(textos[localStorage.getItem('idioma') || 'pt']['erro_validacao']);
+    return;
+  }
+
+  if (metaId) {
+    const metaExistente = metas.find(m => m.id === metaId);
+    if (metaExistente) {
+      metaExistente.nome = nome;
+      metaExistente.valorMeta = valorMeta;
+      metaExistente.valorAtual = valorAtual;
+      mostrarFeedback(textos[localStorage.getItem('idioma') || 'pt']['meta_atualizada']);
+    }
+  } else {
+    const novaMeta = {
+      id: Date.now().toString(),
+      nome,
+      valorMeta,
+      valorAtual,
+      concluida: false
+    };
+    metas.push(novaMeta);
+    mostrarFeedback(textos[localStorage.getItem('idioma') || 'pt']['meta_salva']);
+  }
+
+  localStorage.setItem('metas', JSON.stringify(metas));
+  
+  // Resetar o formulário
+  nomeInput.value = '';
+  valorMetaInput.value = '';
+  valorAtualInput.value = '0';
+  metaIndexInput.value = '';
+  document.getElementById('btn-salvar').textContent = textos[localStorage.getItem('idioma') || 'pt']['salvar_meta'];
+  document.getElementById('btn-cancelar-edicao').style.display = 'none';
+  
+  renderizarMetas();
+}
+
+// Função para apagar uma meta
+function apagarMeta(id) {
+  const confirmar = confirm(textos[localStorage.getItem('idioma') || 'pt']['confirmar_apagar']);
+  if (confirmar) {
+    metas = metas.filter(m => m.id !== id);
+    localStorage.setItem('metas', JSON.stringify(metas));
+    renderizarMetas();
+    mostrarFeedback(textos[localStorage.getItem('idioma') || 'pt']['meta_apagada']);
+  }
+}
+
+// Função para editar uma meta
+function editarMeta(id) {
+  const meta = metas.find(m => m.id === id);
+  if (meta) {
+    document.getElementById('nome-meta').value = meta.nome;
+    document.getElementById('valor-meta').value = meta.valorMeta;
+    document.getElementById('valor-atual').value = meta.valorAtual;
+    document.getElementById('meta-index').value = meta.id;
+
+    document.getElementById('btn-salvar').textContent = textos[localStorage.getItem('idioma') || 'pt']['editar'];
+    document.getElementById('btn-cancelar-edicao').style.display = 'inline-block';
+  }
+}
+
+// Função para cancelar a edição
+function cancelarEdicao() {
+  document.getElementById('nome-meta').value = '';
+  document.getElementById('valor-meta').value = '';
+  document.getElementById('valor-atual').value = '0';
+  document.getElementById('meta-index').value = '';
+  document.getElementById('btn-salvar').textContent = textos[localStorage.getItem('idioma') || 'pt']['salvar_meta'];
+  document.getElementById('btn-cancelar-edicao').style.display = 'none';
+}
+
+// Função para concluir uma meta
+function concluirMeta(id) {
+  const confirmar = confirm(textos[localStorage.getItem('idioma') || 'pt']['confirmar_concluir']);
+  if (confirmar) {
+    const meta = metas.find(m => m.id === id);
+    if (meta) {
+      meta.concluida = true;
+      localStorage.setItem('metas', JSON.stringify(metas));
+      renderizarMetas();
+      mostrarFeedback(textos[localStorage.getItem('idioma') || 'pt']['meta_concluida']);
+    }
+  }
+}
+
+// Carregar dados e inicializar
+function carregarDados() {
+  try {
+    metas = JSON.parse(localStorage.getItem('metas')) || [];
+    // Garantir que cada meta tenha um ID
+    metas.forEach(meta => {
+      if (!meta.id) {
+        meta.id = Date.now().toString() + Math.random().toString();
+      }
+    });
+    localStorage.setItem('metas', JSON.stringify(metas));
+  } catch(e) {
+    metas = [];
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const tema = localStorage.getItem("tema") || "light";
+  if (tema === "dark") document.body.classList.add("dark");
+  
+  // Adiciona a classe de transição inicial
+  document.body.classList.add('page-transition');
+  
+  carregarDados();
+  aplicarIdioma();
+  renderizarMetas();
+
+  // Adicionar event listeners
+  document.getElementById('form-meta').addEventListener('submit', salvarMeta);
+  document.getElementById('btn-cancelar-edicao').addEventListener('click', cancelarEdicao);
+});
+
+// Observa mudanças no localStorage
+window.addEventListener('storage', (e) => {
+  if (e.key === 'idioma' || e.key === 'moeda' || e.key === 'metas') {
+    carregarDados();
+    aplicarIdioma();
+    renderizarMetas();
+  }
+});
+</script>
+  <script>
+// ===========================
+// FEEDBACK GLOBAL SUAVE E REALISTA
+// ===========================
+let audioCtx;
+if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function tocarSom(frequencia = 400, duracao = 0.15, volume = 0.15) {
+  if (localStorage.getItem('som') !== 'true') return;
+
+  const osc = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
+
+  // --- Som digital mais suave e limpo ---
+  osc.type = 'triangle'; // som mais moderno e agradável
+  osc.frequency.setValueAtTime(frequencia, audioCtx.currentTime);
+
+  gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duracao); // fade-out suave
+
+  osc.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+
+  osc.start();
+  osc.stop(audioCtx.currentTime + duracao);
+}
+
+function vibrar(duracao = 30) {
+  if (localStorage.getItem('vibracao') === 'true' && navigator.vibrate) {
+    navigator.vibrate(duracao);
+  }
+}
+
+function aplicarFeedbackRealista(el) {
+  if (el.dataset.feedbackInit) return;
+  el.dataset.feedbackInit = 'true';
+
+  const tag = el.tagName.toLowerCase();
+  const type = el.type ? el.type.toLowerCase() : '';
+
+  // Configurações padrão
+  let freqDown = 400, durDown = 0.1, vibDown = 30;
+  let freqUp = 430, durUp = 0.1, vibUp = 20;
+
+  // Ajustes por tipo de elemento
+  if (type === 'checkbox' || type === 'radio') {
+    freqDown = 440; durDown = 0.08; vibDown = 25;
+    freqUp = 480; durUp = 0.08; vibUp = 15;
+  } else if (tag === 'button' || el.classList.contains('btn')) {
+    freqDown = 380; durDown = 0.12; vibDown = 40;
+    freqUp = 420; durUp = 0.1; vibUp = 25;
+  } else if (type === 'range') {
+    freqDown = 300; durDown = 0.05; vibDown = 10;
+    freqUp = 330; durUp = 0.05; vibUp = 5;
+  } else if (tag === 'select') {
+    freqDown = 360; durDown = 0.08; vibDown = 20;
+    freqUp = 390; durUp = 0.08; vibUp = 15;
+  } else if (tag === 'a') {
+    freqDown = 400; durDown = 0.1; vibDown = 30;
+    freqUp = 440; durUp = 0.1; vibUp = 20;
+  }
+
+  // Som e vibração ao pressionar
+  el.addEventListener('mousedown', () => { tocarSom(freqDown, durDown); vibrar(vibDown); });
+  el.addEventListener('touchstart', () => { tocarSom(freqDown, durDown); vibrar(vibDown); }, { passive: true });
+
+  // Som e vibração ao soltar
+  el.addEventListener('mouseup', () => { tocarSom(freqUp, durUp); vibrar(vibUp); });
+  el.addEventListener('touchend', () => { tocarSom(freqUp, durUp); vibrar(vibUp); });
+
+  // Checkbox e radio: som específico ao alterar valor
+  if (type === 'checkbox' || type === 'radio') {
+    el.addEventListener('change', () => {
+      const ativo = el.checked;
+      tocarSom(ativo ? 500 : 370, 0.15, 0.18);
+      vibrar(ativo ? 30 : 20);
+    });
+  }
+
+  // Slider range: feedback contínuo proporcional
+  if (type === 'range') {
+    let lastValue = el.value;
+    el.addEventListener('input', () => {
+      const delta = Math.abs(el.value - lastValue);
+      if (delta > 0) {
+        const freq = 320 + delta * 5;
+        const vib = Math.min(40, delta * 4);
+        tocarSom(freq, 0.04, 0.12);
+        vibrar(vib);
+        lastValue = el.value;
+      }
+    });
+  }
+
+  // Select: feedback ao abrir/fechar
+  if (tag === 'select') {
+    el.addEventListener('mousedown', () => { tocarSom(350, 0.1, 0.15); vibrar(15); });
+    el.addEventListener('change', () => { tocarSom(420, 0.1, 0.15); vibrar(20); });
+  }
+}
+
+function initFeedbackGlobalRealista() {
+  const selectors = 'button, input[type="checkbox"], input[type="radio"], input[type="range"], select, [role="button"], .btn, .switch input, a';
+  
+  // Aplica feedback nos elementos já existentes
+  document.querySelectorAll(selectors).forEach(aplicarFeedbackRealista);
+
+  // Observa DOM para elementos adicionados dinamicamente
+  const observer = new MutationObserver(() => {
+    document.querySelectorAll(selectors).forEach(aplicarFeedbackRealista);
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+document.addEventListener('DOMContentLoaded', initFeedbackGlobalRealista);
+</script>
+</body>
+</html>

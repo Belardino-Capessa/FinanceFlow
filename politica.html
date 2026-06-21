@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinanceFlow - Política de Privacidade</title>
+
+<link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+<style>
+  /* ---------------------------------
+     Estilos Globais e de Transição
+     --------------------------------- */
+  @font-face { font-family: 'Nunito'; src: url('assets/fontes/Nunito-VariableFont_wght.ttf') format('truetype'); font-weight:100 900; }
+  @font-face { font-family: 'Nunito-Italic'; src: url('assets/fontes/Nunito-italic-VariableFont_wght.ttf') format('truetype'); font-style:italic; font-weight:100 900; }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+  body { font-family:'Nunito', sans-serif; background:#f4f7f9; color:#333; display:flex; flex-direction:column; min-height:100vh; font-size:16px; transition: background 0.4s, color 0.4s; }
+  body.dark { background:#203a43; color:#fff; }
+
+  /* Animação de transição de página */
+  .page-transition { animation: fadein 0.5s ease-in-out; }
+  .page-exit { animation: fadeout 0.5s ease-in-out forwards; }
+  @keyframes fadein { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+  @keyframes fadeout { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(0.95); } }
+
+  /* ---------------------------------
+     Layout e Componentes
+     --------------------------------- */
+  header { background:#203a43; color:#fff; padding:15px; text-align:center; font-size:20px; font-weight:bold; position:sticky; top:0; z-index:999; }
+  main { flex:1; padding:20px; padding-bottom:100px; }
+
+  .section { background:#fff; padding:20px; border-radius:12px; box-shadow:0 2px 5px rgba(0,0,0,0.1); margin-bottom:20px; transition: background 0.4s, color 0.4s; }
+  body.dark .section { background:#2c3e50; color:#fff; }
+
+  .section h3 { font-size:18px; font-weight:bold; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px; }
+  body.dark .section h3 { border-bottom:1px solid #555; }
+
+  h4 { font-size:16px; margin-top:15px; margin-bottom:8px; }
+
+  p { margin-bottom:12px; line-height:1.5; }
+  ul { list-style:inside; margin-bottom:15px; }
+  li { margin-bottom:5px; }
+
+  /* ---------------------------------
+     Rodapé de Navegação
+     --------------------------------- */
+  .footer { position:fixed; bottom:0; left:0; width:100%; background:#203a43; display:flex; justify-content:space-around; padding:10px 0; color:#fff; font-family:'Nunito', sans-serif; border-top:1px solid rgba(255,255,255,0.1); z-index:999; }
+  .footer .nav-item { display:flex; flex-direction:column; align-items:center; font-size:14px; color:#bbb; flex:1; transition:0.3s; cursor:pointer; }
+  .footer .nav-item i { font-size:20px; margin-bottom:3px; }
+  .footer .nav-item.active { color:#1abc9c; }
+  .footer .nav-item.active i, .footer .nav-item.active span { color:#1abc9c; }
+  .footer .nav-item:hover { color:#1abc9c; }
+
+  .assinatura { text-align:center; font-size:12px; margin:5px 0; color:#666; }
+</style>
+</head>
+<body>
+
+<header data-i18n="politica">Política de Privacidade</header>
+
+<main>
+  <div class="section">
+    <h3 data-i18n="politica_geral">Política de Privacidade</h3>
+    <p data-i18n="politica_geral_paragrafo">
+      Sua privacidade é nossa prioridade. Esta política detalha como o aplicativo **FinanceFlow** lida com suas informações pessoais e financeiras.
+    </p>
+
+    <h4 data-i18n="coleta_uso_dados_titulo">1. Coleta e Uso de Dados</h4>
+    <p data-i18n="coleta_uso_dados_paragrafo1">
+      O **FinanceFlow** é um aplicativo local, o que significa que todos os seus dados (transações, metas, preferências) são armazenados exclusivamente no seu dispositivo.
+    </p>
+    <ul>
+      <li data-i18n="coleta_uso_dados_item1">Não coletamos nem enviamos seus dados para servidores externos.</li>
+      <li data-i18n="coleta_uso_dados_item2">Não solicitamos seu nome, e-mail ou qualquer outra informação de identificação pessoal.</li>
+      <li data-i18n="coleta_uso_dados_item3">Os dados que você insere (receitas, despesas, etc.) são usados apenas para fornecer a funcionalidade do aplicativo.</li>
+    </ul>
+
+    <h4 data-i18n="privacidade_criancas_titulo">2. Privacidade de Crianças</h4>
+    <p data-i18n="privacidade_criancas_paragrafo">
+      O **FinanceFlow** não se destina a crianças menores de 13 anos. Não coletamos intencionalmente informações de crianças. Se tivermos conhecimento de que dados de crianças foram inseridos, eles serão excluídos imediatamente.
+    </p>
+
+    <h4 data-i18n="seguranca_dados_titulo">3. Segurança de Dados</h4>
+    <p data-i18n="seguranca_dados_paragrafo1">
+      Como seus dados são armazenados localmente, a segurança deles depende do seu dispositivo. Recomendamos:
+    </p>
+    <ul>
+      <li data-i18n="seguranca_dados_item1">Manter seu dispositivo com senha ou biometria.</li>
+      <li data-i18n="seguranca_dados_item2">Fazer backups regulares de seus dados, pois a perda do seu dispositivo resultará na perda dos dados do aplicativo.</li>
+    </ul>
+
+    <h4 data-i18n="alteracoes_politica_titulo">4. Alterações nesta Política</h4>
+    <p data-i18n="alteracoes_politica_paragrafo">
+      Podemos atualizar nossa Política de Privacidade periodicamente. Notificaremos você sobre quaisquer alterações publicando a nova política nesta página. As alterações são efetivas imediatamente.
+    </p>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="nav-item" onclick="navegar('home.html')"><i class="fas fa-home"></i><span data-i18n="home">Início</span></div>
+  <div class="nav-item" onclick="navegar('transacoes.html')"><i class="fas fa-exchange-alt"></i><span data-i18n="transacoes">Transações</span></div>
+  <div class="nav-item" onclick="navegar('relatorios.html')"><i class="fas fa-chart-line"></i><span data-i18n="relatorios">Relatórios</span></div>
+  <div class="nav-item" onclick="navegar('metas.html')"><i class="fas fa-bullseye"></i><span data-i18n="metas">Metas</span></div>
+  <div class="nav-item" onclick="navegar('sobre.html')"><i class="fas fa-info-circle"></i><span data-i18n="sobre">Sobre</span></div>
+  <div class="nav-item" onclick="navegar('configuracoes.html')"><i class="fas fa-cog"></i><span data-i18n="configuracoes">Configurações</span></div>
+</footer>
+
+<div class="assinatura" data-i18n="assinatura">Criado por Belardino Capessa</div>
+
+<script>
+  function navegar(pagina) {
+    document.body.classList.add('page-exit');
+    setTimeout(() => { window.location.href = pagina; }, 500);
+  }
+  
+  // Multilingue
+  let idioma = localStorage.getItem('idioma') || 'pt';
+  const textos = {
+    pt: {
+      politica: "Política de Privacidade",
+      politica_geral: "Política de Privacidade",
+      politica_geral_paragrafo: "Sua privacidade é nossa prioridade. Esta política detalha como o aplicativo **FinanceFlow** lida com suas informações pessoais e financeiras.",
+      coleta_uso_dados_titulo: "1. Coleta e Uso de Dados",
+      coleta_uso_dados_paragrafo1: "O **FinanceFlow** é um aplicativo local, o que significa que todos os seus dados (transações, metas, preferências) são armazenados exclusivamente no seu dispositivo.",
+      coleta_uso_dados_item1: "Não coletamos nem enviamos seus dados para servidores externos.",
+      coleta_uso_dados_item2: "Não solicitamos seu nome, e-mail ou qualquer outra informação de identificação pessoal.",
+      coleta_uso_dados_item3: "Os dados que você insere (receitas, despesas, etc.) são usados apenas para fornecer a funcionalidade do aplicativo.",
+      privacidade_criancas_titulo: "2. Privacidade de Crianças",
+      privacidade_criancas_paragrafo: "O **FinanceFlow** não se destina a crianças menores de 13 anos. Não coletamos intencionalmente informações de crianças. Se tivermos conhecimento de que dados de crianças foram inseridos, eles serão excluídos imediatamente.",
+      seguranca_dados_titulo: "3. Segurança de Dados",
+      seguranca_dados_paragrafo1: "Como seus dados são armazenados localmente, a segurança deles depende do seu dispositivo. Recomendamos:",
+      seguranca_dados_item1: "Manter seu dispositivo com senha ou biometria.",
+      seguranca_dados_item2: "Fazer backups regulares de seus dados, pois a perda do seu dispositivo resultará na perda dos dados do aplicativo.",
+      alteracoes_politica_titulo: "4. Alterações nesta Política",
+      alteracoes_politica_paragrafo: "Podemos atualizar nossa Política de Privacidade periodicamente. Notificaremos você sobre quaisquer alterações publicando a nova política nesta página. As alterações são efetivas imediatamente.",
+      home: "Início",
+      transacoes: "Transações",
+      relatorios: "Relatórios",
+      metas: "Metas",
+      sobre: "Sobre",
+      configuracoes: "Configurações",
+      assinatura: "Criado por Belardino Capessa"
+    },
+    en: {
+      politica: "Privacy Policy",
+      politica_geral: "Privacy Policy",
+      politica_geral_paragrafo: "Your privacy is our priority. This policy details how the **FinanceFlow** app handles your personal and financial information.",
+      coleta_uso_dados_titulo: "1. Data Collection and Use",
+      coleta_uso_dados_paragrafo1: "The **FinanceFlow** app is local, which means all your data (transactions, goals, preferences) are stored exclusively on your device.",
+      coleta_uso_dados_item1: "We do not collect or send your data to external servers.",
+      coleta_uso_dados_item2: "We do not ask for your name, email, or any other personally identifiable information.",
+      coleta_uso_dados_item3: "The data you enter (income, expenses, etc.) is used only to provide the app's functionality.",
+      privacidade_criancas_titulo: "2. Children's Privacy",
+      privacidade_criancas_paragrafo: "The **FinanceFlow** app is not intended for children under 13. We do not knowingly collect information from children. If we become aware that a child's data has been entered, it will be deleted immediately.",
+      seguranca_dados_titulo: "3. Data Security",
+      seguranca_dados_paragrafo1: "Since your data is stored locally, its security depends on your device. We recommend:",
+      seguranca_dados_item1: "Keeping your device password-protected or with biometrics.",
+      seguranca_dados_item2: "Regularly backing up your data, as the loss of your device will result in the loss of app data.",
+      alteracoes_politica_titulo: "4. Changes to this Policy",
+      alteracoes_politica_paragrafo: "We may update our Privacy Policy periodically. We will notify you of any changes by posting the new policy on this page. Changes are effective immediately.",
+      home: "Home",
+      transacoes: "Transactions",
+      relatorios: "Reports",
+      metas: "Goals",
+      sobre: "About",
+      configuracoes: "Settings",
+      assinatura: "Created by Belardino Capessa"
+    }
+  };
+
+  function aplicarIdioma(){
+    const currentLang = localStorage.getItem('idioma') || 'pt';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (textos[currentLang] && textos[currentLang][key]) {
+        el.textContent = textos[currentLang][key];
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", ()=>{
+    document.body.classList.add('page-transition');
+    aplicarIdioma();
+    const tema = localStorage.getItem("tema") || "light";
+    if(tema==="dark") document.body.classList.add("dark");
+  });
+</script>
+</body>
+</html>

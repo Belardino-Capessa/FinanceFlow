@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinanceFlow - Sobre</title>
+<link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+<style>
+  /* ---------------------------------
+     Fontes e Estilos Globais
+     --------------------------------- */
+  @font-face { font-family: 'Nunito'; src: url('assets/fontes/Nunito-VariableFont_wght.ttf') format('truetype'); font-weight:100 900; }
+  @font-face { font-family: 'Nunito-Italic'; src: url('assets/fontes/Nunito-italic-VariableFont_wght.ttf') format('truetype'); font-style:italic; font-weight:100 900; }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+  body { font-family:'Nunito', sans-serif; background:#f4f7f9; color:#333; display:flex; flex-direction:column; min-height:100vh; font-size:17px; transition: background 0.4s, color 0.4s; }
+  body.dark { background:#203a43; color:#fff; }
+
+  /* ---------------------------------
+     Transição de Página
+     --------------------------------- */
+  .page-transition { animation: fadein 0.5s ease-in-out; }
+  .page-exit { animation: fadeout 0.5s ease-in-out forwards; }
+  @keyframes fadein { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+  @keyframes fadeout { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(0.95); } }
+
+  .page-title {
+    background: #203a43;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+  main { flex:1; padding:20px; padding-bottom:140px; }
+
+  /* ---------------------------------
+     Cartões de Seção
+     --------------------------------- */
+  .section { background:#fff; padding:15px; border-radius:12px; box-shadow:0 2px 5px rgba(0,0,0,0.1); margin-bottom:20px; transition: background 0.4s, color 0.4s; }
+  body.dark .section { background:#2c3e50; color:#fff; }
+
+  .section h3 { font-size:20px; font-weight:bold; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px; }
+  body.dark .section h3 { border-bottom: 1px solid #555; }
+  .section h3 i { margin-right: 8px; color: #1abc9c; }
+
+  .setting-item { margin:8px 0; font-size:18px; display:flex; align-items:center; gap:10px; }
+  .setting-item span { color: #666; font-weight: bold; }
+  body.dark .setting-item span { color: #bbb; }
+  .setting-item strong { color: #333; }
+  body.dark .setting-item strong { color: #fff; }
+  .setting-item a { color:#1abc9c; text-decoration:none; flex:1; transition:0.3s; }
+  .setting-item a:hover { text-decoration:underline; }
+
+  .icon-label { display: flex; align-items: center; gap: 10px; }
+  .icon-label strong { font-size:18px; }
+  .icon-label span { font-weight: bold; }
+
+  .setting-item ul {
+    padding-left: 20px;
+    list-style: disc;
+  }
+  .setting-item ul li {
+    margin-bottom: 5px;
+    color: #555;
+    font-size: 16px;
+  }
+  body.dark .setting-item ul li {
+    color: #ccc;
+  }
+  
+  /* ---------------------------------
+     Seção de Doações
+     --------------------------------- */
+  .donation-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  .donation-btn {
+    background-color: #f8f8f8;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .donation-btn:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+  }
+  .donation-btn i {
+    color: #1abc9c;
+  }
+  body.dark .donation-btn {
+    background-color: #34495e;
+    color: #fff;
+    border: 1px solid #555;
+  }
+  body.dark .donation-btn:hover {
+    background-color: #4a627a;
+  }
+  body.dark .donation-btn i {
+    color: #1abc9c;
+  }
+
+  /* ---------------------------------
+     Modal de Doação - Ajuste para Temas
+     --------------------------------- */
+  .modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease;
+  }
+  .modal.active {
+    visibility: visible;
+    opacity: 1;
+  }
+  .modal-content {
+    background: #fff; /* Fundo claro para o modo claro */
+    border: 1px solid #ddd;
+    border-radius: 2rem;
+    padding: clamp(2rem, 5vw, 3rem);
+    width: 90%;
+    max-width: 45rem;
+    text-align: center;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
+    color: #333;
+    animation: fadeInScale 0.4s ease-out forwards;
+    transition: background 0.4s, color 0.4s;
+  }
+  body.dark .modal-content {
+    background: #2c3e50; /* Fundo escuro para o modo escuro */
+    border: 1px solid #555;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.7);
+    color: #eee;
+  }
+  
+  .modal-content h2 { font-size: clamp(1.4rem, 4vw, 1.8rem); margin-bottom: clamp(1rem, 3vw, 1.5rem); color: #333; }
+  body.dark .modal-content h2 { color: #fff; }
+
+  .modal-content p { font-size: clamp(0.9rem, 2.5vw, 1.1rem); margin-bottom: clamp(1.5rem, 4vw, 2.5rem); color: #666; }
+  body.dark .modal-content p { color: #E0E0E0; }
+
+  .modal-content .iban-text {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: clamp(0.8rem, 2vw, 1rem);
+    border-radius: 0.5rem;
+    font-size: clamp(1.1rem, 3vw, 1.3rem);
+    font-weight: bold;
+    word-break: break-all;
+    color: #1abc9c;
+    transition: background 0.4s, color 0.4s;
+  }
+  body.dark .modal-content .iban-text {
+    background: #1e2a33;
+    border: 1px solid #4a627a;
+    color: #ADFF2F;
+  }
+
+  .modal-buttons { display: flex; justify-content: center; gap: clamp(1rem, 3vw, 1.5rem); flex-wrap: wrap; }
+  .modal-buttons button {
+    background: linear-gradient(135deg, #1abc9c, #16a085);
+    border: none;
+    border-radius: 1rem;
+    padding: clamp(0.8rem, 3vw, 1rem) clamp(1.5rem, 5vw, 2rem);
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.2);
+  }
+
+  .modal-buttons button:hover {
+    transform: translateY(-0.3rem) scale(1.02);
+    box-shadow: 0 0.6rem 2rem rgba(0, 0, 0, 0.4);
+    filter: brightness(1.1);
+  }
+  
+  @keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .pulse {
+    animation: pulse 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+  }
+
+  /* ---------------------------------
+     Rodapé de Navegação
+     --------------------------------- */
+  .footer { position:fixed; bottom:0; left:0; width:100%; background:#203a43; display:flex; justify-content:space-around; padding:10px 0; color:#fff; font-family:'Nunito', sans-serif; border-top:1px solid rgba(255,255,255,0.1); z-index:999; }
+  .footer .nav-item { display:flex; flex-direction:column; align-items:center; font-size:13px; color:#bbb; flex:1; transition:0.3s; cursor:pointer; }
+  .footer .nav-item i { font-size:20px; margin-bottom:3px; }
+  .footer .nav-item.active { color:#1abc9c; }
+  .footer .nav-item:hover { color:#1abc9c; }
+
+  .assinatura { text-align:center; font-size:14px; margin:5px 0; color:#666; }
+
+  /* ---------------------------------
+     Responsividade
+     --------------------------------- */
+  @media (max-width: 600px) {
+    main { padding: 10px; padding-bottom: 120px; }
+    .section { padding: 15px; }
+    .footer .nav-item { font-size: 11px; }
+    .footer .nav-item i { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<h1 class="page-title" data-i18n="sobre">Sobre o App</h1>
+
+<main>
+  <div class="section">
+    <h3><i class="fas fa-info-circle"></i><span data-i18n="sobre_app_section">Sobre o App</span></h3>
+    <div class="setting-item">
+      <p data-i18n="descricao">
+        FinanceFlow é um aplicativo de controle financeiro intuitivo, que permite registrar receitas e despesas, acompanhar o saldo, gerar gráficos e relatórios detalhados, organizando suas finanças de maneira prática e eficiente.
+      </p>
+    </div>
+  </div>
+
+  <div class="section version-credits">
+    <h3><i class="fas fa-mobile-alt"></i><span data-i18n="versao_creditos">Versão e Créditos</span></h3>
+    <div class="setting-item"><span data-i18n="versao_app">Versão do App:</span> <strong data-i18n="versao_app_valor">1.0</strong></div>
+    <div class="setting-item"><span data-i18n="data_lancamento">Data de lançamento:</span> <strong data-i18n="data_lancamento_valor">12 de Setembro de 2025</strong></div>
+    <div class="setting-item"><span data-i18n="ultima_atualizacao">Última atualização:</span> <strong data-i18n="ultima_atualizacao_valor">06/09/2025</strong></div>
+    <div class="setting-item"><span data-i18n="tipo">Tipo:</span><strong data-i18n="tipo_valor">WebApp empacotado via WebView (APK)</strong></div>
+
+    <div class="setting-item">
+        <div class="icon-label">
+            <i class="fas fa-code"></i><span data-i18n="tecnologias_usadas">Tecnologias usadas:</span>
+        </div>
+        <div style="margin-top: 1px;">
+            <p><strong data-i18n="tecnologias_valor">HTML5, CSS3, JavaScript</strong></p>
+            <p><strong data-i18n="fontawesome">FontAwesome</strong><span data-i18n="icones">(ícones)</span></p>
+            <p><strong data-i18n="nunito">Fonte Nunito</strong><span data-i18n="tipografia">(tipografia)</span></p>
+            <p><strong data-i18n="localstorage">Armazenamento Local</strong><span data-i18n="localstorage_info">(LocalStorage)</span></p>
+        </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3><i class="fas fa-user"></i><span data-i18n="autor_desenvolvedor">Autor & Desenvolvedor</span></h3>
+    <div class="setting-item"><span data-i18n="autor_nome_label">Nome:</span><strong data-i18n="autor_nome">Belardino Capessa</strong></div>
+    <div class="setting-item"><span data-i18n="funcao">Função:</span> <strong data-i18n="funcao_valor">Criador e Desenvolvedor do app</strong></div>
+    <div class="setting-item"><span data-i18n="especialidades">Especialidades:</span> <strong data-i18n="especialidades_valor">Desenvolvimento de apps, UI/UX Design e funcionalidades práticas</strong></div>
+
+    <div class="setting-item"><i class="fas fa-envelope"></i><a href="mailto:belardinocapessa@gmail.com" target="_blank" data-i18n="email">belardinocapessa@gmail.com</a></div>
+    <div class="setting-item"><i class="fab fa-whatsapp"></i><a href="https://wa.me/244939556816" target="_blank" data-i18n="whatsapp">+244 939 556 816</a></div>
+    <div class="setting-item"><i class="fab fa-facebook"></i><a href="https://www.facebook.com/belardino.capessa.2025?mibextid=rS40aB7S9Ucbxw6v" target="_blank" data-i18n="facebook">belardino.capessa</a></div>
+    <div class="setting-item"><i class="fab fa-linkedin"></i><a href="https://www.linkedin.com/in/belardino-capessa-5b2196304?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" data-i18n="linkedin">belardino-capessa</a></div>
+    <div class="setting-item"><i class="fab fa-github"></i><a href="https://github.com/Belardino-Capessa" target="_blank" data-i18n="github">BelardinoCapessa</a></div>
+  </div>
+      
+  <div class="section">
+    <h3><i class="fas fa-hand-holding-usd"></i><span data-i18n="apoie_dev">Apoie o Desenvolvedor</span></h3>
+    <p data-i18n="apoie_texto">Se gostou do jogo e quer ajudar a mantê-lo e melhorá-lo, qualquer doação é muito bem-vinda!</p>
+    <div class="donation-options">
+      <button class="donation-btn" data-service="transferencia">
+        <i class="fas fa-university"></i><span data-i18n="transferencia_bancaria"> Transferência Bancária</span>
+      </button>
+      <button class="donation-btn" data-service="ekwanza">
+        <i class="fas fa-wallet"></i><span data-i18n="ekwanza"> E-Kwanza</span>
+      </button>
+      <button class="donation-btn" data-service="unitelmoney">
+        <i class="fas fa-mobile-alt"></i><span data-i18n="unitelmoney"> Unitel Money</span>
+      </button>
+      <button class="donation-btn" data-service="afrimoney">
+        <i class="fas fa-credit-card"></i><span data-i18n="afrimoney"> AfriMoney</span>
+      </button>
+      <a href="https://wa.me/244939556816" target="_blank" class="donation-btn">
+        <i class="fab fa-whatsapp"></i><span data-i18n="outros_meios"> Outros Meios (WhatsApp)</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="modal" id="iban-modal">
+    <div class="modal-content">
+      <h2 id="modal-title" data-i18n="modal_title">Dados para Doação</h2>
+      <p id="modal-info" data-i18n="modal_info">Copie o código para fazer a sua doação. Muito obrigado!</p>
+      <p class="iban-text" id="iban-text"></p>
+      <div class="modal-buttons">
+        <button id="copy-iban-btn"><i class="fas fa-copy"></i><span data-i18n="copiar"> Copiar</span></button>
+        <button id="close-iban-modal-btn" data-i18n="fechar">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3><i class="fas fa-hand-holding-heart"></i><span data-i18n="agradecimentos_section">Agradecimentos</span></h3>
+    <div class="setting-item">
+      <p data-i18n="agradecimentos_texto">
+        Agradeço a todos os desenvolvedores e à comunidade de código aberto que disponibilizam ferramentas essenciais como o Chart.js e FontAwesome, que tornaram possível a criação deste aplicativo.
+      </p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3><i class="fas fa-shield-alt"></i><span data-i18n="politica_section">Política de Privacidade</span></h3>
+    <div class="setting-item">
+      <a href="javascript:navegar('politica.html')" data-i18n="ver_politica">Ver Política de Privacidade</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3><i class="fas fa-file-alt"></i><span data-i18n="termos_section">Termos de Uso</span></h3>
+    <div class="setting-item">
+      <a href="javascript:navegar('termos.html')" data-i18n="ver_termos">Ver Termos de Uso</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="nav-item" onclick="navegar('home.html')"><i class="fas fa-home"></i><span data-i18n="home">Início</span></div>
+  <div class="nav-item" onclick="navegar('transacoes.html')"><i class="fas fa-exchange-alt"></i><span data-i18n="transacoes">Transações</span></div>
+  <div class="nav-item" onclick="navegar('relatorios.html')"><i class="fas fa-chart-line"></i><span data-i18n="relatorios">Relatórios</span></div>
+  <div class="nav-item" onclick="navegar('metas.html')"><i class="fas fa-bullseye"></i><span data-i18n="metas">Metas</span></div>
+  <div class="nav-item active" onclick="navegar('sobre.html')"><i class="fas fa-info-circle"></i><span data-i18n="sobre">Sobre</span></div>
+  <div class="nav-item" onclick="navegar('configuracoes.html')"><i class="fas fa-cog"></i><span data-i18n="configuracoes">Configurações</span></div>
+</footer>
+
+<div class="assinatura" data-i18n="assinatura">Criado por Belardino Capessa</div>
+<script>
+    // --- Lógica de Doações Dinâmico ---
+    const ibanModal = document.getElementById('iban-modal');
+    const closeIbanBtn = document.getElementById('close-iban-modal-btn');
+    const copyIbanBtn = document.getElementById('copy-iban-btn');
+    
+    const donationData = {
+        transferencia: { title: "Transferência Bancária", info: "Copie o IBAN para fazer a sua doação.", code: "0006 0000 03354451301 13" },
+        ekwanza: { title: "E-Kwanza", info: "Número E-Kwanza para doação:", code: "939556816" },
+        unitelmoney: { title: "Unitel Money", info: "Número Unitel Money:", code: "939556816" },
+        afrimoney: { title: "AfriMoney", info: "Número AfriMoney:", code: "95857654" }
+    };
+
+    function setupDonationLogic() {
+        document.querySelectorAll('.donation-btn[data-service]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const service = btn.getAttribute('data-service');
+                const idioma = localStorage.getItem('idioma') || 'pt';
+                
+                // Mapeia os dados do modal com base no idioma, se necessário
+                const titleKey = `modal_title`;
+                const infoKey = `modal_info_${service}`;
+                
+                ibanModal.querySelector('#modal-title').textContent = donationData[service].title;
+                ibanModal.querySelector('#modal-info').textContent = donationData[service].info;
+                ibanModal.querySelector('#iban-text').textContent = donationData[service].code;
+                ibanModal.classList.add('active');
+            });
+        });
+
+        closeIbanBtn.addEventListener('click', () => ibanModal.classList.remove('active'));
+
+        copyIbanBtn.addEventListener('click', () => {
+            const code = ibanModal.querySelector('#iban-text').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                copyIbanBtn.textContent = "Copiado! ✅";
+                setTimeout(() => {
+                    copyIbanBtn.innerHTML = '<i class="fas fa-copy"></i> ' + textos[localStorage.getItem('idioma') || 'pt']['copiar'];
+                }, 1500);
+            }).catch(err => {
+                alert("Não foi possível copiar. Por favor, copie manualmente.");
+            });
+        });
+    }
+
+    // --- Navegação e Multilinguismo ---
+    function navegar(pagina) {
+        document.body.classList.add('page-exit');
+        setTimeout(() => {
+            window.location.href = pagina;
+        }, 500);
+    }
+    
+    let idioma = localStorage.getItem('idioma') || 'pt';
+    const textos = {
+        pt: {
+            sobre: "Sobre",
+            sobre_app_section: "Sobre o App",
+            descricao: "FinanceFlow é um aplicativo de controle financeiro intuitivo, que permite registrar receitas e despesas, acompanhar o saldo, gerar gráficos e relatórios detalhados, organizando suas finanças de maneira prática e eficiente.",
+            versao_creditos: "Versão e Créditos",
+            versao_app: "Versão do App:",
+            versao_app_valor: "1.0",
+            data_lancamento: "Data de lançamento:",
+            data_lancamento_valor: "12 de Setembro de 2025",
+            ultima_atualizacao: "Última atualização:",
+            ultima_atualizacao_valor: "06/09/2025",
+            tipo: "Tipo:",
+            tipo_valor: "WebApp empacotado via WebView (APK)",
+            tecnologias_usadas: "Tecnologias usadas:",
+            tecnologias_valor: "HTML5, CSS3, JavaScript",
+            fontawesome: "FontAwesome",
+            icones: "(ícones)",
+            nunito: "Fonte Nunito",
+            tipografia: "(tipografia)",
+            localstorage: "Armazenamento Local",
+            localstorage_info: "(LocalStorage)",
+            autor_desenvolvedor: "Autor & Desenvolvedor",
+            autor_nome_label: "Nome:",
+            autor_nome: "Belardino Capessa",
+            funcao: "Função:",
+            funcao_valor: "Criador e Desenvolvedor do app",
+            especialidades: "Especialidades:",
+            especialidades_valor: "Desenvolvimento de apps, UI/UX Design e funcionalidades práticas",
+            email: "belardinocapessa@gmail.com",
+            whatsapp: "+244 939 556 816",
+            facebook: "belardino.capessa",
+            linkedin: "belardino-capessa",
+            github: "BelardinoCapessa",
+            apoie_dev: "Apoie o Desenvolvedor",
+            apoie_texto: "Se gostou do jogo e quer ajudar a mantê-lo e melhorá-lo, qualquer doação é muito bem-vinda!",
+            transferencia_bancaria: "Transferência Bancária",
+            ekwanza: "E-Kwanza",
+            unitelmoney: "Unitel Money",
+            afrimoney: "AfriMoney",
+            outros_meios: "Outros Meios (WhatsApp)",
+            modal_title: "Dados para Doação",
+            modal_info: "Copie o código para fazer a sua doação. Muito obrigado!",
+            copiar: "Copiar",
+            fechar: "Fechar",
+            agradecimentos_section: "Agradecimentos",
+            agradecimentos_texto: "Agradeço a todos os desenvolvedores e à comunidade de código aberto que disponibilizam ferramentas essenciais como o Chart.js e FontAwesome, que tornaram possível a criação deste aplicativo.",
+            politica_section: "Política de Privacidade",
+            ver_politica: "Ver Política de Privacidade",
+            termos_section: "Termos de Uso",
+            ver_termos: "Ver Termos de Uso",
+            home: "Início",
+            transacoes: "Cadastro",
+            relatorios: "Gráficos",
+            metas: "Metas",
+            configuracoes: "Configurações",
+            assinatura: "Criado por Belardino Capessa"
+        },
+        en: {
+            sobre: "About",
+            sobre_app_section: "About the App",
+            descricao: "FinanceFlow is an intuitive financial management app that allows you to record income and expenses, track your balance, generate charts and detailed reports, organizing your finances in a practical and efficient way.",
+            versao_creditos: "Version & Credits",
+            versao_app: "App Version:",
+            versao_app_valor: "1.0",
+            data_lancamento: "Release Date:",
+            data_lancamento_valor: "September 12, 2025",
+            ultima_atualizacao: "Last Update:",
+            ultima_atualizacao_valor: "09/06/2025",
+            tipo: "Type:",
+            tipo_valor: "WebApp packaged via WebView (APK)",
+            tecnologias_usadas: "Technologies used:",
+            tecnologias_valor: "HTML5, CSS3, JavaScript",
+            fontawesome: "FontAwesome",
+            icones: "(icons)",
+            nunito: "Nunito Font",
+            tipografia: "(typography)",
+            localstorage: "Local Storage",
+            localstorage_info: "(LocalStorage)",
+            autor_desenvolvedor: "Author & Developer",
+            autor_nome_label: "Name:",
+            autor_nome: "Belardino Capessa",
+            funcao: "Role:",
+            funcao_valor: "App Creator & Developer",
+            especialidades: "Skills:",
+            especialidades_valor: "App development, UI/UX Design, and practical functionalities",
+            email: "belardinocapessa@gmail.com",
+            whatsapp: "+244 939 556 816",
+            facebook: "belardino.capessa",
+            linkedin: "belardino-capessa",
+            github: "BelardinoCapessa",
+            apoie_dev: "Support the Developer",
+            apoie_texto: "If you like the app and want to help maintain and improve it, any donation is very welcome!",
+            transferencia_bancaria: "Bank Transfer",
+            ekwanza: "E-Kwanza",
+            unitelmoney: "Unitel Money",
+            afrimoney: "AfriMoney",
+            outros_meios: "Other Means (WhatsApp)",
+            modal_title: "Donation Details",
+            modal_info: "Copy the code to make your donation. Thank you very much!",
+            copiar: "Copy",
+            fechar: "Close",
+            agradecimentos_section: "Acknowledgments",
+            agradecimentos_texto: "I thank all the developers and the open-source community who provide essential tools like Chart.js and FontAwesome, which made the creation of this app possible.",
+            politica_section: "Privacy Policy",
+            ver_politica: "View Privacy Policy",
+            termos_section: "Terms of Use",
+            ver_termos: "View Terms of Use",
+            home: "Home",
+            transacoes: "Transactions",
+            relatorios: "Reports",
+            metas: "Goals",
+            configuracoes: "Settings",
+            assinatura: "Created by Belardino Capessa"
+        }
+    };
+
+    function aplicarIdioma(){
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (textos[idioma] && textos[idioma][key]) {
+                el.textContent = textos[idioma][key];
+            }
+        });
+    }
+
+    // --- Inicialização ---
+    document.addEventListener("DOMContentLoaded", () => {
+        document.body.classList.add('page-transition');
+        aplicarIdioma();
+        const tema = localStorage.getItem("tema") || "light";
+        if (tema === "dark") document.body.classList.add("dark");
+        setupDonationLogic();
+    });
+
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'idioma' || e.key === 'tema') {
+            idioma = localStorage.getItem('idioma') || 'pt';
+            aplicarIdioma();
+            const tema = localStorage.getItem("tema") || "light";
+            document.body.classList.toggle("dark", tema === "dark");
+        }
+    });
+</script>
+<script>
+// ===========================
+// FEEDBACK GLOBAL SUAVE E REALISTA
+// ===========================
+let audioCtx;
+if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function tocarSom(frequencia = 400, duracao = 0.15, volume = 0.15) {
+  if (localStorage.getItem('som') !== 'true') return;
+
+  const osc = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
+
+  // --- Som digital mais suave e limpo ---
+  osc.type = 'triangle'; // som mais moderno e agradável
+  osc.frequency.setValueAtTime(frequencia, audioCtx.currentTime);
+
+  gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duracao); // fade-out suave
+
+  osc.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+
+  osc.start();
+  osc.stop(audioCtx.currentTime + duracao);
+}
+
+function vibrar(duracao = 30) {
+  if (localStorage.getItem('vibracao') === 'true' && navigator.vibrate) {
+    navigator.vibrate(duracao);
+  }
+}
+
+function aplicarFeedbackRealista(el) {
+  if (el.dataset.feedbackInit) return;
+  el.dataset.feedbackInit = 'true';
+
+  const tag = el.tagName.toLowerCase();
+  const type = el.type ? el.type.toLowerCase() : '';
+
+  // Configurações padrão
+  let freqDown = 400, durDown = 0.1, vibDown = 30;
+  let freqUp = 430, durUp = 0.1, vibUp = 20;
+
+  // Ajustes por tipo de elemento
+  if (type === 'checkbox' || type === 'radio') {
+    freqDown = 440; durDown = 0.08; vibDown = 25;
+    freqUp = 480; durUp = 0.08; vibUp = 15;
+  } else if (tag === 'button' || el.classList.contains('btn')) {
+    freqDown = 380; durDown = 0.12; vibDown = 40;
+    freqUp = 420; durUp = 0.1; vibUp = 25;
+  } else if (type === 'range') {
+    freqDown = 300; durDown = 0.05; vibDown = 10;
+    freqUp = 330; durUp = 0.05; vibUp = 5;
+  } else if (tag === 'select') {
+    freqDown = 360; durDown = 0.08; vibDown = 20;
+    freqUp = 390; durUp = 0.08; vibUp = 15;
+  } else if (tag === 'a') {
+    freqDown = 400; durDown = 0.1; vibDown = 30;
+    freqUp = 440; durUp = 0.1; vibUp = 20;
+  }
+
+  // Som e vibração ao pressionar
+  el.addEventListener('mousedown', () => { tocarSom(freqDown, durDown); vibrar(vibDown); });
+  el.addEventListener('touchstart', () => { tocarSom(freqDown, durDown); vibrar(vibDown); }, { passive: true });
+
+  // Som e vibração ao soltar
+  el.addEventListener('mouseup', () => { tocarSom(freqUp, durUp); vibrar(vibUp); });
+  el.addEventListener('touchend', () => { tocarSom(freqUp, durUp); vibrar(vibUp); });
+
+  // Checkbox e radio: som específico ao alterar valor
+  if (type === 'checkbox' || type === 'radio') {
+    el.addEventListener('change', () => {
+      const ativo = el.checked;
+      tocarSom(ativo ? 500 : 370, 0.15, 0.18);
+      vibrar(ativo ? 30 : 20);
+    });
+  }
+
+  // Slider range: feedback contínuo proporcional
+  if (type === 'range') {
+    let lastValue = el.value;
+    el.addEventListener('input', () => {
+      const delta = Math.abs(el.value - lastValue);
+      if (delta > 0) {
+        const freq = 320 + delta * 5;
+        const vib = Math.min(40, delta * 4);
+        tocarSom(freq, 0.04, 0.12);
+        vibrar(vib);
+        lastValue = el.value;
+      }
+    });
+  }
+
+  // Select: feedback ao abrir/fechar
+  if (tag === 'select') {
+    el.addEventListener('mousedown', () => { tocarSom(350, 0.1, 0.15); vibrar(15); });
+    el.addEventListener('change', () => { tocarSom(420, 0.1, 0.15); vibrar(20); });
+  }
+}
+
+function initFeedbackGlobalRealista() {
+  const selectors = 'button, input[type="checkbox"], input[type="radio"], input[type="range"], select, [role="button"], .btn, .switch input, a';
+  
+  // Aplica feedback nos elementos já existentes
+  document.querySelectorAll(selectors).forEach(aplicarFeedbackRealista);
+
+  // Observa DOM para elementos adicionados dinamicamente
+  const observer = new MutationObserver(() => {
+    document.querySelectorAll(selectors).forEach(aplicarFeedbackRealista);
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+document.addEventListener('DOMContentLoaded', initFeedbackGlobalRealista);
+</script>
+</body>
+</html>

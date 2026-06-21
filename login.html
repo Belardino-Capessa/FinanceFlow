@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanceFlow - Login</title>
+    
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-page">
+
+    <!-- Tela de Login com E-mail/Senha -->
+    <div class="login-container page-transition" id="login-container">
+        <h1 class="page-title">FinanceFlow</h1>
+        <div class="card">
+            <h2>Bem-vindo de volta!</h2>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="input-group password-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" required>
+                    <span class="password-toggle"><i class="fas fa-eye"></i></span>
+                </div>
+                <button type="submit" class="btn primary">Entrar</button>
+                <div class="separator">ou</div>
+                <button type="button" class="btn google" id="btnGoogleLogin">
+                    <i class="fab fa-google"></i> Continuar com o Google
+                </button>
+            </form>
+            <p class="toggle-form">
+                Não tem uma conta? <a href="#" id="show-register">Cadastre-se</a>
+            </p>
+            <p class="toggle-form">
+                <a href="#" id="show-recover">Esqueceu sua senha?</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Tela de Cadastro -->
+    <div class="login-container hidden" id="register-container">
+        <h1 class="page-title">FinanceFlow</h1>
+        <div class="card">
+            <h2>Criar Conta</h2>
+            <form id="register-form">
+                <div class="input-group">
+                    <label for="reg-email">E-mail</label>
+                    <input type="email" id="reg-email" required>
+                </div>
+                <div class="input-group password-group">
+                    <label for="reg-password">Senha</label>
+                    <input type="password" id="reg-password" required>
+                    <span class="password-toggle"><i class="fas fa-eye"></i></span>
+                </div>
+                <div class="input-group password-group">
+                    <label for="reg-confirm-password">Confirmar Senha</label>
+                    <input type="password" id="reg-confirm-password" required>
+                    <span class="password-toggle"><i class="fas fa-eye"></i></span>
+                </div>
+                <button type="submit" class="btn primary">Registrar</button>
+            </form>
+            <p class="toggle-form">
+                Já tem uma conta? <a href="#" id="show-login">Entrar</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Tela de Recuperação de Senha -->
+    <div class="login-container hidden" id="recover-container">
+        <h1 class="page-title">FinanceFlow</h1>
+        <div class="card">
+            <h2>Recuperar Senha</h2>
+            <form id="recover-form">
+                <div class="input-group">
+                    <label for="rec-email">E-mail da Conta</label>
+                    <input type="email" id="rec-email" required>
+                </div>
+                <button type="submit" class="btn primary">Enviar Link de Recuperação</button>
+            </form>
+            <p class="toggle-form">
+                <a href="#" id="show-login-from-recover">Voltar ao Login</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Modal de Feedback -->
+    <div id="feedback-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <h3 id="modal-title"></h3>
+            <p id="modal-message"></p>
+            <button id="modal-close-btn" class="btn primary">OK</button>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1135 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FinanceFlow - Movimentos</title>
+<link rel="stylesheet" href="assets/fontawesome/css/all.min.css"> 
+
+<style>
+/* --- Fontes locais --- */
+@font-face {
+  font-family: 'Nunito';
+  src: url('assets/fontes/Nunito-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+}
+@font-face {
+  font-family: 'Nunito-Italic';
+  src: url('assets/fontes/Nunito-Italic-VariableFont_wght.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 100 900;
+}
+
+/* --- Variáveis (Replicadas do Home para consistência) --- */
+:root {
+  --cor-fundo-claro: #F4F7F9;
+  --cor-fundo-escuro: #203A43;
+  --cor-card-claro: #fff;
+  --cor-card-escuro: #2C3E50;
+  --cor-texto-claro: #333;
+  --cor-texto-escuro: #fff;
+  --cor-header-claro: #f4f7f9;
+  --cor-header-escuro: #203a43;
+  --cor-destaque: #1abc9c; /* Cor principal */
+  --cor-secundaria-claro: #f0f0f0;
+  --cor-secundaria-escuro: #34495e;
+  --cor-ganho: #28a745; /* Verde para Ganhos */
+  --cor-gasto: #dc3545; /* Vermelho para Gastos */
+  --sombra: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* --- Estilos Gerais --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--cor-fundo-claro);
+  color: var(--cor-texto-claro);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  transition: background 0.4s, color 0.4s;
+}
+body.dark {
+  background: var(--cor-fundo-escuro);
+  color: var(--cor-texto-escuro);
+}
+header {
+  background: var(--cor-header-escuro);
+  color: #fff;
+  padding: 18px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: background 0.4s, color 0.4s;
+}
+main {
+  flex: 1;
+  padding: 22px;
+  padding-bottom: 90px;
+}
+
+/* --- Estilos do Formulário --- */
+form {
+  background: var(--cor-card-claro);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: var(--sombra);
+  margin-bottom: 20px;
+  transition: background 0.4s, color 0.4s;
+}
+body.dark form {
+  background: var(--cor-card-escuro);
+  color: var(--cor-texto-escuro);
+}
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  font-size: 1em;
+}
+form input,
+form select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+}
+body.dark form input,
+body.dark form select {
+  background: var(--cor-secundaria-escuro);
+  color: var(--cor-texto-escuro);
+  border: 1px solid #555;
+}
+/* Estilo para validação */
+form .error-message {
+  color: var(--cor-gasto);
+  font-size: 0.9em;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  display: none;
+}
+form button {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  background: var(--cor-destaque);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+form button:hover {
+  background: #16a085;
+}
+
+/* --- Estilos da Lista de Transações --- */
+.lista {
+  background: var(--cor-card-claro);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: var(--sombra);
+  transition: background 0.4s, color 0.4s;
+}
+body.dark .lista {
+  background: var(--cor-card-escuro);
+  color: var(--cor-texto-escuro);
+}
+.lista h3 {
+  margin-bottom: 15px;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+.lista ul {
+  list-style: none;
+  padding: 0;
+}
+.lista li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 1em;
+}
+body.dark .lista li {
+  border-bottom: 1px solid #555;
+}
+.lista li:last-child {
+  border-bottom: none;
+}
+.lista li div.descricao-data {
+  display: flex;
+  flex-direction: column;
+}
+.lista li div.descricao-data span.nome {
+  font-weight: bold;
+  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+}
+.lista li div.descricao-data span.data {
+  color: #666;
+  font-size: 0.9em;
+  margin-top: 2px;
+}
+body.dark .lista li div.descricao-data span.data {
+  color: #bbb;
+}
+.lista li div.valor-acoes {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-left: 10px;
+}
+.lista li div.valor-acoes span.valor {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.lista li div.valor-acoes i {
+  cursor: pointer;
+  font-size: 1em;
+  transition: color 0.2s;
+}
+.lista li div.valor-acoes i[data-action="editar"]:hover { color: var(--cor-destaque); }
+.lista li div.valor-acoes i[data-action="excluir"]:hover { color: var(--cor-gasto); }
+
+
+/* --- Estilos do Rodapé (Replicado do Home) --- */
+.footer { 
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    background: var(--cor-header-escuro); 
+    display: flex; 
+    justify-content: space-around; 
+    padding: 10px 0; 
+    color: #fff; 
+    font-family: 'Nunito', sans-serif; 
+    border-top: 1px solid rgba(255,255,255,0.1); 
+    z-index: 999;
+}
+.footer .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; color: #bbb; flex: 1; transition: 0.3s; cursor: pointer; }
+.footer .nav-item i { font-size: 20px; margin-bottom: 4px; }
+.footer .nav-item.active { color: var(--cor-destaque); }
+.footer .nav-item.active i { color: var(--cor-destaque); }
+.footer .nav-item:hover { color: var(--cor-destaque); }
+.assinatura { text-align: center; font-size: 11px; margin: 5px 0; color: #666; }
+body.dark .assinatura { color: #aaa; }
+
+
+/* --- Estilos dos Filtros de Pesquisa --- */
+.filtros {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.filtros input {
+  flex: 2;
+  min-width: 150px;
+  border: 1px solid #ccc;
+  background: var(--cor-card-claro);
+  border-radius: 8px;
+  font-size: 1em;
+  padding: 12px;
+}
+.filtros button {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  background: var(--cor-card-claro);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 0.9em;
+}
+.filtros button:hover {
+  background: var(--cor-secundaria-claro);
+}
+.filtros button.active {
+  background: var(--cor-destaque);
+  color: #fff;
+  border-color: var(--cor-destaque);
+}
+body.dark .filtros input {
+  background: var(--cor-secundaria-escuro);
+  color: var(--cor-texto-escuro);
+  border: 1px solid #555;
+}
+body.dark .filtros button {
+  background: var(--cor-secundaria-escuro);
+  color: var(--cor-texto-escuro);
+  border-color: #555;
+}
+body.dark .filtros button.active {
+  background: var(--cor-destaque);
+  color: #fff;
+  border-color: var(--cor-destaque);
+}
+
+/* --- Modal de Confirmação --- */
+.modal-container {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background-color: var(--cor-card-claro);
+  margin: auto;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: var(--sombra);
+}
+body.dark .modal-content {
+  background-color: var(--cor-card-escuro);
+}
+.modal-content h4 {
+  margin-bottom: 20px;
+  color: var(--cor-texto-claro);
+}
+body.dark .modal-content h4 {
+  color: var(--cor-texto-escuro);
+}
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+.modal-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-cancelar {
+  background-color: #95a5a6;
+  color: white;
+  transition: 0.3s;
+}
+.btn-cancelar:hover {
+  background-color: #7f8c8d;
+}
+.btn-confirmar {
+  background-color: var(--cor-gasto);
+  color: white;
+  transition: 0.3s;
+}
+.btn-confirmar:hover {
+  background-color: #c0392b;
+}
+
+/* Transição de Tela */
+.page-transition {
+  animation: fadein 0.5s ease-in-out;
+}
+.page-exit {
+  animation: fadeout 0.5s ease-in-out forwards;
+}
+
+@keyframes fadein {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes fadeout {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.95); }
+}
+
+@media (min-width: 600px) {
+    main {
+        max-width: 900px; 
+        margin: 0 auto;
+    }
+}
+</style>
+</head>
+<body class="page-transition">
+
+<header data-i18n="historico">Movimentos</header>
+
+<main>
+  <form id="form-transacao">
+    <input type="hidden" id="editar-id" value="">
+    
+    <label for="descricao" data-i18n="descricao">O quê é?</label>
+    <input type="text" id="descricao" required placeholder="Ex: Salário, Renda Extra, Conta de Luz" />
+    <span class="error-message" id="descricao-error"></span>
+
+    <label for="valor" data-i18n="valor">Valor (<span id="moeda-label">Kz</span>)</label>
+    <input type="number" id="valor" step="0.01" required placeholder="0.00" />
+    <span class="error-message" id="valor-error"></span>
+
+    <label for="tipo" data-i18n="tipo">Tipo de Movimento</label>
+    <select id="tipo" required>
+      <option value="ganho" data-i18n="ganho">Ganho (Entrada)</option>
+      <option value="gasto" data-i18n="gasto">Gasto (Saída)</option>
+    </select>
+    <span class="error-message" id="tipo-error"></span>
+    
+    <div id="campo-meta" style="display:none;">
+      <label for="meta-selecionada" data-i18n="associar_meta">Guardar para Meta (Opcional)</label>
+      <select id="meta-selecionada" class="campo-selecao">
+        <option value="" data-i18n="nenhuma_meta">Nenhuma Meta</option>
+      </select>
+    </div>
+
+    <label for="categoria" data-i18n="categoria">Categoria</label>
+    <select id="categoria" required></select>
+    <span class="error-message" id="categoria-error"></span>
+
+    <label for="data" data-i18n="data">Quando Aconteceu</label>
+    <input type="date" id="data" required />
+    <span class="error-message" id="data-error"></span>
+
+    <button type="submit" id="salvar-btn" data-i18n="salvar">Gravar Movimento</button>
+  </form>
+
+  <div class="lista">
+    <h3 data-i18n="todasTransacoes">Todo o Histórico</h3>
+    <div class="filtros">
+      <input type="text" id="filtro-texto" data-i18n="pesquisar_placeholder" placeholder="Buscar por descrição..." />
+      <button class="active" data-filtro="todos" data-i18n="filtroTodos">Todos</button>
+      <button data-filtro="ganho" data-i18n="ganho_curto">Ganhos</button>
+      <button data-filtro="gasto" data-i18n="gasto_curto">Gastos</button>
+    </div>
+    <ul id="lista-transacoes"></ul>
+  </div>
+</main>
+
+<div class="modal-container" id="modal-container">
+  <div class="modal-content">
+    <h4 id="modal-texto">Deseja mesmo excluir este movimento?</h4>
+    <div class="modal-buttons">
+      <button class="btn-cancelar" id="btn-cancelar" data-i18n="cancelar">Não</button>
+      <button class="btn-confirmar" id="btn-confirmar" data-i18n="confirmar">Sim, Excluir</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer" id="main-footer">
+  <div class="nav-item" data-page="home.html" onclick="navegar('home.html')"><i class="fas fa-home"></i><span data-i18n="inicio">Início</span></div>
+  <div class="nav-item active" data-page="transacoes.html" onclick="navegar('transacoes.html')"><i class="fas fa-list-alt"></i><span data-i18n="historico_nav">Movimentos</span></div>
+  <div class="nav-item" data-page="relatorios.html" onclick="navegar('relatorios.html')"><i class="fas fa-chart-bar"></i><span data-i18n="relatorios">Relatórios</span></div>
+  <div class="nav-item" data-page="metas.html" onclick="navegar('metas.html')"><i class="fas fa-bullseye"></i><span data-i18n="metas">Metas</span></div>
+  <div class="nav-item" data-page="configuracoes.html" onclick="navegar('configuracoes.html')"><i class="fas fa-cog"></i><span data-i18n="configuracoes">Ajustes</span></div>
+</footer>
+
+<div class="assinatura" data-i18n="criador">Criado por Belardino Capessa</div>
+
+
+<script>
+  
+  // --- Funções Globais (Navegação/Tema/Moeda) ---
+  function navegar(pagina) {
+    document.body.classList.add('page-exit');
+    setTimeout(() => {
+      window.location.href = pagina;
+    }, 500);
+  }
+
+  function formatarMoeda(valor) {
+    const moeda = localStorage.getItem("moeda") || "Kz";
+    const idioma = localStorage.getItem('idioma') || 'pt';
+    const locale = (idioma === 'pt') ? 'pt-PT' : 'en-US';
+    const numValor = Number(valor) || 0;
+    
+    return `${numValor.toLocaleString(locale, { minimumFractionDigits: 2 })} ${moeda}`;
+  }
+
+  // --- Gestão de Tema e Moeda (Inicialização) ---
+  const tema = localStorage.getItem('tema') || 'light';
+  if (tema === 'dark') document.body.classList.add('dark');
+
+  let moeda = localStorage.getItem('moeda') || 'Kz';
+  const moedaLabel = document.getElementById('moeda-label');
+  if(moedaLabel) moedaLabel.textContent = moeda;
+
+
+// --- Dicionário de Textos para Suporte Multilingue ---
+const textos = {
+  pt: {
+    historico: "Movimentos", descricao: "O quê é?", valor: "Valor", tipo: "Tipo de Movimento",
+    ganho: "Ganho ou Receita", gasto: "Gasto ou Despesa", categoria: "Categoria", data: "Quando aconteceu?",
+    salvar: "Gravar Movimento", atualizar: "Atualizar Movimento", todasTransacoes: "Todo o Histórico",
+    filtroTodos: "Todos", ganho_curto: "Ganhos", gasto_curto: "Gastos", inicio: "Início",
+    relatorios: "Relatórios", metas: "Metas", configuracoes: "Ajustes", editar: "Editar",
+    excluir: "Excluir", nenhuma: "Nenhum movimento registrado", erroDescricao: "Diga o quê é esse movimento.",
+    erroValor: "O valor precisa ser positivo.", erroData: "A data é obrigatória.", erroCategoria: "A categoria é obrigatória.",
+    associar_meta: "Guardar para Meta (Opcional)", nenhuma_meta: "Nenhuma Meta", cancelar: "Não",
+    confirmar: "Sim, Excluir", modalExcluir: "Deseja mesmo excluir este movimento?",
+    pesquisar_placeholder: "Buscar por descrição...", historico_nav: "Movimentos", criador: "Criado por Belardino Capessa"
+  },
+  en: {
+    historico: "Transactions", descricao: "What is it?", valor: "Amount", tipo: "Movement Type",
+    ganho: "Income (Gain)", gasto: "Expense (Spend)", categoria: "Category", data: "When it Happened",
+    salvar: "Save Transaction", atualizar: "Update Transaction", todasTransacoes: "All History",
+    filtroTodos: "All", ganho_curto: "Income", gasto_curto: "Expense", inicio: "Home",
+    relatorios: "Reports", metas: "Goals", configuracoes: "Settings", editar: "Edit",
+    excluir: "Delete", nenhuma: "No transactions recorded", erroDescricao: "Description is required.",
+    erroValor: "Amount must be positive.", erroData: "Date is required.", erroCategoria: "Category is required.",
+    associar_meta: "Save for Goal (Optional)", nenhuma_meta: "No Goal", cancelar: "No",
+    confirmar: "Yes, Delete", modalExcluir: "Are you sure you want to delete this transaction?",
+    pesquisar_placeholder: "Search by description...", historico_nav: "History", criador: "Created by Belardino Capessa"
+  },
+  es: {
+    historico: "Movimientos", descricao: "¿Qué es?", valor: "Valor", tipo: "Tipo de Movimiento",
+    ganho: "Ingreso (Entrada)", gasto: "Gasto (Salida)", categoria: "Categoría", data: "Cuándo Ocurrió",
+    salvar: "Guardar Movimiento", atualizar: "Actualizar Movimiento", todasTransacoes: "Todo el Historial",
+    filtroTodos: "Todos", ganho_curto: "Ingresos", gasto_curto: "Gastos", inicio: "Inicio",
+    relatorios: "Informes", metas: "Metas", configuracoes: "Ajustes", editar: "Editar",
+    excluir: "Eliminar", nenhuma: "No hay movimientos registrados", erroDescricao: "Se requiere descripción.",
+    erroValor: "El valor debe ser positivo.", erroData: "La fecha es obligatoria.", erroCategoria: "La categoría es obligatoria.",
+    associar_meta: "Guardar para Meta (Opcional)", nenhuma_meta: "Sin Meta", cancelar: "No",
+    confirmar: "Sí, Eliminar", modalExcluir: "¿Seguro que desea eliminar este movimiento?",
+    pesquisar_placeholder: "Buscar por descripción...", historico_nav: "Movimientos", criador: "Creado por Belardino Capessa"
+  },
+  fr: {
+    historico: "Mouvements", descricao: "Qu'est-ce que c'est ?", valor: "Montant", tipo: "Type de Mouvement",
+    ganho: "Revenu (Entrée)", gasto: "Dépense (Sortie)", categoria: "Catégorie", data: "Quand Cela S'est Passé",
+    salvar: "Enregistrer le Mouvement", atualizar: "Mettre à Jour le Mouvement", todasTransacoes: "Tout l'Historique",
+    filtroTodos: "Tous", ganho_curto: "Revenus", gasto_curto: "Dépenses", inicio: "Accueil",
+    relatorios: "Rapports", metas: "Objectifs", configuracoes: "Paramètres", editar: "Modifier",
+    excluir: "Supprimer", nenhuma: "Aucun mouvement enregistré", erroDescricao: "La description est requise.",
+    erroValor: "Le montant doit être positif.", erroData: "La date est obligatoire.", erroCategoria: "La catégorie est obligatoire.",
+    associar_meta: "Enregistrer pour Objectif (Optionnel)", nenhuma_meta: "Aucun Objectif", cancelar: "Non",
+    confirmar: "Oui, Supprimer", modalExcluir: "Voulez-vous vraiment supprimer ce mouvement ?",
+    pesquisar_placeholder: "Rechercher par description...", historico_nav: "Mouvements", criador: "Créé par Belardino Capessa"
+  }
+};
+let idioma = localStorage.getItem('idioma') || 'pt';
+
+
+// --- Dados de Categorias (DO USUÁRIO) ---
+
+// --- Categorias com tipo, textos e ícones (versão revisada e organizada) ---
+const categoriasInfo = {
+  // 💸 GASTOS / DESPESAS PRINCIPAIS
+  comida_mercado: { pt: "Alimentação e supermercado", en: "Food and Groceries", es: "Alimentación y Supermercado", fr: "Alimentation et Supermarché", icon: 'fa-solid fa-utensils', tipo: 'gasto' },
+  aluguel: { pt: "Aluguel da casa", en: "House Rent", es: "Alquiler de la Casa", fr: "Loyer de la Maison", icon: 'fa-solid fa-house-user', tipo: 'gasto' },
+  contas_casa: { pt: "Contas domésticas", en: "Household Bills", es: "Facturas del Hogar", fr: "Factures Ménagères", icon: 'fa-solid fa-lightbulb', tipo: 'gasto' },
+  internet_telefone: { pt: "Internet e telefone", en: "Internet and Phone", es: "Internet y Teléfono", fr: "Internet et Téléphone", icon: 'fa-solid fa-wifi', tipo: 'gasto' },
+  transporte_combustivel: { pt: "Transporte e combustível", en: "Transport and Fuel", es: "Transporte y Combustible", fr: "Transport et Carburant", icon: 'fa-solid fa-gas-pump', tipo: 'gasto' },
+
+  // 🏠 PESSOAIS E FAMILIARES
+  saude_remedios: { pt: "Saúde e remédios", en: "Health and Medicine", es: "Salud y Medicamentos", fr: "Santé et Médicaments", icon: 'fa-solid fa-heart-pulse', tipo: 'gasto' },
+  beleza_cuidados: { pt: "Cuidados pessoais", en: "Personal Care", es: "Cuidado Personal", fr: "Soins Personnels", icon: 'fa-solid fa-spa', tipo: 'gasto' },
+  roupas_calcados: { pt: "Roupas e calçados", en: "Clothes and Shoes", es: "Ropa y Calzado", fr: "Vêtements et Chaussures", icon: 'fa-solid fa-shirt', tipo: 'gasto' },
+  familia_filhos: { pt: "Família", en: "Family", es: "Familia", fr: "Famille", icon: 'fa-solid fa-people-group', tipo: 'gasto' },
+  pets: { pt: "Animais de estimação", en: "Pets", es: "Mascotas", fr: "Animaux de Compagnie", icon: 'fa-solid fa-paw', tipo: 'gasto' },
+
+  // 🎉 SOCIAIS E LAZER
+  lazer_diversao: { pt: "Lazer e diversão", en: "Leisure and Entertainment", es: "Ocio y Entretenimiento", fr: "Loisirs et Divertissement", icon: 'fa-solid fa-ticket', tipo: 'gasto' },
+  viagens_ferias: { pt: "Viagens e férias", en: "Travel and Vacation", es: "Viajes y Vacaciones", fr: "Voyages et Vacances", icon: 'fa-solid fa-plane', tipo: 'gasto' },
+  presentes_festas: { pt: "Presentes e festas", en: "Gifts and Parties", es: "Regalos y Fiestas", fr: "Cadeaux et Fêtes", icon: 'fa-solid fa-gifts', tipo: 'gasto' },
+  doacoes_ajuda: { pt: "Doações", en: "Donations", es: "Donaciones", fr: "Dons", icon: 'fa-solid fa-hand-holding-heart', tipo: 'gasto' },
+
+  // 📚 DESENVOLVIMENTO E TRABALHO
+  educacao_cursos: { pt: "Educação e formação", en: "Education and Training", es: "Educación y Formación", fr: "Éducation et Formation", icon: 'fa-solid fa-graduation-cap', tipo: 'gasto' },
+  trabalho_negocio: { pt: "Trabalho e negócios", en: "Work and Business", es: "Trabajo y Negocios", fr: "Travail et Affaires", icon: 'fa-solid fa-briefcase', tipo: 'gasto' },
+  assinaturas_apps: { pt: "Assinaturas e aplicativos", en: "Subscriptions and Paid Apps", es: "Suscripciones y Aplicaciones", fr: "Abonnements et Applications", icon: 'fa-solid fa-newspaper', tipo: 'gasto' },
+  tecnologia_equipamentos: { pt: "Equipamentos e tecnologia", en: "Equipment and Technology", es: "Equipos y Tecnología", fr: "Équipements et Technologie", icon: 'fa-solid fa-laptop', tipo: 'gasto' },
+
+  // 🏦 OBRIGAÇÕES E OUTROS
+  impostos_taxas: { pt: "Impostos e taxas", en: "Taxes and Fees", es: "Impuestos y Tasas", fr: "Impôts et Taxes", icon: 'fa-solid fa-landmark', tipo: 'gasto' },
+  dividas_emprestimos: { pt: "Dívidas e empréstimos", en: "Debts and Loans", es: "Deudas y Préstamos", fr: "Dettes et Prêts", icon: 'fa-solid fa-hand-holding-dollar', tipo: 'gasto' },
+  consertos_manutencao: { pt: "Consertos e manutenção", en: "Repairs and Maintenance", es: "Reparaciones y Mantenimiento", fr: "Réparations et Entretien", icon: 'fa-solid fa-wrench', tipo: 'gasto' },
+  servicos_domesticos: { pt: "Serviços domésticos", en: "Domestic Services", es: "Servicios Domésticos", fr: "Services Domestiques", icon: 'fa-solid fa-broom', tipo: 'gasto' },
+  documentos_burocracia: { pt: "Documentos", en: "Documents", es: "Documentos", fr: "Documents", icon: 'fa-solid fa-file-lines', tipo: 'gasto' },
+  seguranca_protecao: { pt: "Segurança e proteção", en: "Security and Protection", es: "Seguridad y Protección", fr: "Sécurité et Protection", icon: 'fa-solid fa-shield-halved', tipo: 'gasto' },
+  outros_gastos: { pt: "Outros gastos", en: "Other Expenses", es: "Otros Gastos", fr: "Autres Dépenses", icon: 'fa-solid fa-ellipsis-h', tipo: 'gasto' },
+
+  // 💰 GANHOS / ENTRADAS
+  salario: { pt: "Salário", en: "Salary", es: "Salario", fr: "Salaire", icon: 'fa-solid fa-money-check-dollar', tipo: 'ganho' },
+  trabalho_extra: { pt: "Trabalho extra / freelance", en: "Extra Work / Freelance", es: "Trabajo Extra / Freelance", fr: "Travail Supplémentaire / Freelance", icon: 'fa-solid fa-briefcase-clock', tipo: 'ganho' },
+  vendas_produtos: { pt: "Vendas de produtos ou serviços", en: "Sales of Products or Services", es: "Ventas de Productos o Servicios", fr: "Ventes de Produits ou Services", icon: 'fa-solid fa-store', tipo: 'ganho' },
+  lucros_investimentos: { pt: "Lucros de investimentos", en: "Investment Profit", es: "Ganancias de Inversiones", fr: "Bénéfices d'Investissements", icon: 'fa-solid fa-chart-line', tipo: 'ganho' },
+  aluguel_recebido: { pt: "Aluguel recebido", en: "Rent Received", es: "Alquiler Recibido", fr: "Loyer Reçu", icon: 'fa-solid fa-house-chimney-window', tipo: 'ganho' },
+  presente_dinheiro: { pt: "Presentes em dinheiro", en: "Money Gifts", es: "Regalos en Dinero", fr: "Cadeaux en Argent", icon: 'fa-solid fa-gift', tipo: 'ganho'}};
+  
+
+// --- Categorias organizadas com suporte multilíngue completo ---
+const categorias = {
+  gasto: Object.keys(categoriasInfo)
+              .filter(k => categoriasInfo[k].tipo === 'gasto')
+              .map(k => ({
+                  key: k,
+                  pt: categoriasInfo[k].pt,
+                  en: categoriasInfo[k].en,
+                  es: categoriasInfo[k].es,
+                  fr: categoriasInfo[k].fr
+              }))
+              .sort((a, b) => (a[idioma] || a.pt).localeCompare(b[idioma] || b.pt)),
+
+  ganho: Object.keys(categoriasInfo)
+              .filter(k => categoriasInfo[k].tipo === 'ganho')
+              .map(k => ({
+                  key: k,
+                  pt: categoriasInfo[k].pt,
+                  en: categoriasInfo[k].en,
+                  es: categoriasInfo[k].es,
+                  fr: categoriasInfo[k].fr
+              }))
+              .sort((a, b) => (a[idioma] || a.pt).localeCompare(b[idioma] || b.pt))
+};
+
+  // Fallback/Padrão
+  const iconesPadrao = {
+      ganho: 'fa-solid fa-arrow-up',
+      gasto: 'fa-solid fa-arrow-down'
+  };
+
+
+  // --- Funções de Inicialização e UI (Parte 1) ---
+  const elementos = {
+      descricaoError: document.getElementById("descricao-error"),
+      valorError: document.getElementById("valor-error"),
+      dataError: document.getElementById("data-error"),
+      salvarBtn: document.getElementById('salvar-btn'),
+      dataInput: document.getElementById("data"),
+      tipoSelect: document.getElementById("tipo"),
+      formTransacao: document.getElementById("form-transacao"),
+      filtroTexto: document.getElementById('filtro-texto'),
+      filtroBotoes: document.querySelectorAll('.filtros button'),
+      listaTransacoes: document.getElementById("lista-transacoes"),
+      modalContainer: document.getElementById('modal-container'),
+      modalTexto: document.getElementById('modal-texto'),
+      btnConfirmar: document.getElementById('btn-confirmar'),
+      btnCancelar: document.getElementById('btn-cancelar'),
+      campoMeta: document.getElementById("campo-meta"),
+      editarId: document.getElementById("editar-id"),
+      categoriaSelect: document.getElementById("categoria")
+  };
+// Fim da Parte 1
+// Início da Parte 2: Lógica Principal
+
+  // --- Funções de Controle de UI ---
+
+  /** Aplica o idioma selecionado nos elementos da página. */
+  function aplicarIdioma() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (textos[idioma] && textos[idioma][key]) {
+        if(el.tagName === 'INPUT' && el.type === 'text') {
+            el.placeholder = textos[idioma][key];
+        } else {
+            el.textContent = textos[idioma][key];
+        }
+      }
+    });
+
+    if(elementos.modalTexto) elementos.modalTexto.textContent = textos[idioma].modalExcluir;
+    if(elementos.filtroTexto) elementos.filtroTexto.placeholder = textos[idioma].pesquisar_placeholder;
+
+    // Garante que a mensagem de erro da categoria seja traduzida
+    const categoriaErrorEl = document.getElementById("categoria-error");
+    if(categoriaErrorEl) categoriaErrorEl.textContent = textos[idioma].erroCategoria;
+
+    const errorMessages = { descricao: "descricao-error", valor: "valor-error", data: "data-error" };
+    for (const key in errorMessages) {
+      const el = document.getElementById(errorMessages[key]);
+      if (el) el.textContent = textos[idioma][`erro${key.charAt(0).toUpperCase() + key.slice(1)}`];
+    }
+
+    carregarCategorias();
+    carregarMetasParaTransacoes();
+    if(elementos.salvarBtn) {
+        elementos.salvarBtn.textContent = elementos.editarId.value ? textos[idioma].atualizar : textos[idioma].salvar;
+    }
+  }
+
+  /** Carrega as categorias no campo de seleção com base no tipo de transação. */
+  function carregarCategorias() {
+    const tipo = elementos.tipoSelect.value;
+    const chaveCategoria = tipo; // 'ganho' ou 'gasto'
+
+    const catList = categorias[chaveCategoria] || [];
+    const selectCategoria = elementos.categoriaSelect;
+    if(!selectCategoria) return;
+    selectCategoria.innerHTML = "";
+
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = textos[idioma].categoria || "Categoria"; // Tradução de Categoria
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    selectCategoria.appendChild(defaultOption);
+
+    catList.sort((a, b) => a[idioma].localeCompare(b[idioma]));
+    catList.forEach(cat => {
+      const option = document.createElement("option");
+      option.value = cat.key;
+      option.textContent = cat[idioma];
+      selectCategoria.appendChild(option);
+    });
+  }
+
+  /** Carrega as metas no campo de seleção. */
+  function carregarMetasParaTransacoes() {
+    const metas = JSON.parse(localStorage.getItem('metas')) || [];
+    const metaSelect = document.getElementById('meta-selecionada');
+    if (!metaSelect) return;
+    metaSelect.innerHTML = `<option value="">${textos[idioma].nenhuma_meta}</option>`;
+
+    metas.filter(m => !m.concluida).forEach(meta => {
+        const valorDisponivel = meta.valorTotal - meta.valorAtual;
+        const textoDisponivel = valorDisponivel > 0 ? formatarMoeda(valorDisponivel) + " a faltar" : "Concluída";
+
+        const option = document.createElement('option');
+        option.value = meta.id;
+        option.textContent = `${meta.nome} (${textoDisponivel})`;
+        metaSelect.appendChild(option);
+    });
+  }
+
+  // --- Variáveis de Estado do Filtro ---
+  let filtroAtual = 'todos';
+  let textoBusca = '';
+
+  // --- Carregar e Filtrar Transações ---
+  /** Carrega e exibe as transações filtradas e ordenadas. */
+  function carregarTransacoes() {
+    let dados;
+    try { dados = JSON.parse(localStorage.getItem("financeflow")); } catch (e) { dados = null; }
+    if (!dados || !Array.isArray(dados.transacoes)) { dados = { transacoes: [] }; }
+    
+    let transacoesFiltradas = dados.transacoes;
+    const filtroTipo = filtroAtual; 
+
+    if (filtroTipo !== 'todos') {
+      transacoesFiltradas = transacoesFiltradas.filter(t => t.tipo === filtroTipo);
+    }
+    
+    if (textoBusca) {
+      const busca = textoBusca.toLowerCase();
+      transacoesFiltradas = transacoesFiltradas.filter(t => 
+        t.descricao.toLowerCase().includes(busca)
+      );
+    }
+
+    elementos.listaTransacoes.innerHTML = "";
+    if (transacoesFiltradas.length === 0) {
+      elementos.listaTransacoes.innerHTML = `<li style="text-align:center; color:#888; padding: 20px 0;">${textos[idioma].nenhuma}</li>`;
+      return;
+    }
+
+    const transacoesOrdenadas = transacoesFiltradas.slice().sort((a, b) => new Date(b.data) - new Date(a.data));
+
+    transacoesOrdenadas.forEach(t => {
+      const isGanho = (t.tipo === "ganho"); 
+      const corValor = isGanho ? 'var(--cor-ganho)' : 'var(--cor-gasto)';
+      
+      // O objeto aqui é categoriasInfo (nome do novo objeto que você forneceu)
+      const infoCategoria = categoriasInfo[t.categoria];
+      
+      let catNome = infoCategoria ? infoCategoria[idioma] : t.categoria;
+      let catIcone = infoCategoria ? infoCategoria.icon : (isGanho ? iconesPadrao.ganho : iconesPadrao.gasto);
+      
+      const valorFormatado = formatarMoeda(t.valor);
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <div class="descricao-data">
+          <span class="nome"><i class="${catIcone}" style="margin-right:10px; color:${corValor};"></i>${t.descricao}</span>
+          <span class="data">${t.data} | ${catNome}</span>
+        </div>
+        <div class="valor-acoes">
+          <span class="valor" style="color:${corValor}">${isGanho ? "+" : "-"} ${valorFormatado}</span>
+          <i class="fas fa-pencil-alt" title="${textos[idioma].editar}" data-id="${t.id}" data-action="editar" style="color:#666;"></i>
+          <i class="fas fa-trash" title="${textos[idioma].excluir}" data-id="${t.id}" data-action="excluir" style="color:red;"></i>
+        </div>
+      `;
+      elementos.listaTransacoes.appendChild(li);
+    });
+  }
+
+  // --- Funções do Modal de Exclusão ---
+  let transacaoParaExcluirId = null;
+
+  function confirmarExclusao(id) {
+    transacaoParaExcluirId = id;
+    if(elementos.modalContainer) elementos.modalContainer.style.display = 'flex';
+  }
+
+  // --- Gestão de Transações (CRUD) ---
+  /** Salva ou atualiza uma transação. */
+  function salvarTransacao(e) {
+    e.preventDefault();
+
+    document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+
+    const descricao = document.getElementById("descricao").value.trim();
+    const valorInput = document.getElementById("valor").value.replace(',', '.');
+    const valor = parseFloat(valorInput);
+    const tipo = elementos.tipoSelect.value; 
+    const categoria = elementos.categoriaSelect.value;
+    const data = elementos.dataInput.value;
+    const editarId = elementos.editarId.value;
+    const metaId = document.getElementById("meta-selecionada").value;
+    
+    let categoriaErrorEl = document.getElementById("categoria-error");
+
+    let isValid = true;
+    if (!descricao) { elementos.descricaoError.style.display = 'block'; isValid = false; }
+    if (isNaN(valor) || valor <= 0) { elementos.valorError.style.display = 'block'; isValid = false; }
+    if (!data) { elementos.dataError.style.display = 'block'; isValid = false; }
+    if (!categoria) { 
+        if(categoriaErrorEl) categoriaErrorEl.style.display = 'block'; 
+        isValid = false; 
+    } else {
+        if(categoriaErrorEl) categoriaErrorEl.style.display = 'none'; 
+    }
+    
+    if (!isValid) return;
+
+    let dados;
+    try { dados = JSON.parse(localStorage.getItem("financeflow")); } catch (e) { dados = null; }
+    if (!dados || !Array.isArray(dados.transacoes)) { dados = { transacoes: [] }; }
+    
+    let metas = JSON.parse(localStorage.getItem('metas')) || [];
+
+    if (editarId) {
+        const idNumerico = parseInt(editarId, 10);
+        const idx = dados.transacoes.findIndex(t => t.id === idNumerico);
+        
+        if (idx !== -1) {
+            const transacaoAntiga = dados.transacoes[idx];
+
+            // 1. Ajustar Meta Antiga
+            if (transacaoAntiga.tipo === 'ganho' && transacaoAntiga.metaId) {
+                const metaAntigaIndex = metas.findIndex(m => m.id == transacaoAntiga.metaId);
+                if (metaAntigaIndex !== -1) {
+                    metas[metaAntigaIndex].valorAtual -= transacaoAntiga.valor;
+                }
+            }
+
+            // 2. Atualiza a transação
+            dados.transacoes[idx] = { id: idNumerico, descricao, valor, tipo, categoria, data, metaId };
+
+            // 3. Ajustar Meta Nova
+            if (tipo === 'ganho' && metaId) {
+                const metaNovaIndex = metas.findIndex(m => m.id == metaId);
+                if (metaNovaIndex !== -1) {
+                    metas[metaNovaIndex].valorAtual += valor;
+                }
+            }
+        }
+    } else {
+        const novaTransacao = { id: Date.now(), descricao, valor, tipo, categoria, data, metaId };
+        dados.transacoes.push(novaTransacao);
+        
+        // Lógica de adição de meta para novo ganho
+        if (tipo === 'ganho' && metaId) {
+            const metaIndex = metas.findIndex(m => m.id == metaId);
+            if (metaIndex !== -1) {
+                metas[metaIndex].valorAtual += valor;
+            }
+        }
+    }
+    
+    // Salva metas e transações
+    localStorage.setItem('metas', JSON.stringify(metas));
+    localStorage.setItem("financeflow", JSON.stringify(dados));
+    
+    resetFormulario();
+    carregarTransacoes();
+    window.dispatchEvent(new Event('storage')); 
+  }
+
+  /** Reseta o formulário de transação para os valores padrão. */
+  function resetFormulario() {
+    if(elementos.formTransacao) elementos.formTransacao.reset();
+    if(elementos.editarId) elementos.editarId.value = "";
+    if(elementos.dataInput) elementos.dataInput.valueAsDate = new Date();
+    if(elementos.salvarBtn) elementos.salvarBtn.textContent = textos[idioma].salvar;
+    if(elementos.campoMeta) elementos.campoMeta.style.display = 'none';
+    if(elementos.tipoSelect) elementos.tipoSelect.value = 'gasto'; 
+    
+    const categoriaErrorEl = document.getElementById("categoria-error");
+    if(categoriaErrorEl) categoriaErrorEl.style.display = 'none'; 
+    
+    carregarCategorias();
+    carregarMetasParaTransacoes(); 
+  }
+
+  /** Preenche o formulário para editar uma transação existente. */
+  function editarTransacao(id) {
+    let dados = JSON.parse(localStorage.getItem("financeflow")) || { transacoes: [] };
+    const t = dados.transacoes.find(t => t.id === id);
+    if (t) {
+      document.getElementById("descricao").value = t.descricao;
+      document.getElementById("valor").value = t.valor;
+      elementos.tipoSelect.value = t.tipo; 
+      elementos.dataInput.value = t.data;
+      
+      const isGanho = (t.tipo === 'ganho');
+
+      if (isGanho) {
+          elementos.campoMeta.style.display = 'block';
+          if(t.metaId) document.getElementById("meta-selecionada").value = t.metaId;
+      } else {
+          elementos.campoMeta.style.display = 'none';
+          document.getElementById("meta-selecionada").value = ""; 
+      }
+
+      carregarCategorias();
+      setTimeout(() => {
+          elementos.categoriaSelect.value = t.categoria;
+      }, 50); 
+      
+      elementos.editarId.value = t.id;
+      elementos.salvarBtn.textContent = textos[idioma].atualizar;
+    }
+  }
+
+  /** Remove uma transação do armazenamento local. */
+  function excluirTransacao(id) {
+    let dados = JSON.parse(localStorage.getItem("financeflow")) || { transacoes: [] };
+    
+    // 1. Lógica de ajuste de meta
+    const t = dados.transacoes.find(t => t.id === id);
+    if (t && t.tipo === 'ganho' && t.metaId) {
+        let metas = JSON.parse(localStorage.getItem('metas')) || [];
+        const metaIndex = metas.findIndex(m => m.id == t.metaId);
+        if (metaIndex !== -1) {
+            metas[metaIndex].valorAtual -= t.valor;
+            if (metas[metaIndex].valorAtual < 0) metas[metaIndex].valorAtual = 0; 
+            localStorage.setItem('metas', JSON.stringify(metas));
+        }
+    }
+    
+    // 2. Remove a transação
+    dados.transacoes = dados.transacoes.filter(t => t.id !== id);
+    localStorage.setItem("financeflow", JSON.stringify(dados));
+    
+    carregarTransacoes();
+    window.dispatchEvent(new Event('storage'));
+  }
+
+  // --- Event Listeners e Inicialização ---
+  if(elementos.formTransacao) elementos.formTransacao.addEventListener("submit", salvarTransacao);
+  if(elementos.dataInput) elementos.dataInput.valueAsDate = new Date();
+
+  // Filtro de Texto
+  if(elementos.filtroTexto) elementos.filtroTexto.addEventListener('input', (e) => {
+    textoBusca = e.target.value;
+    carregarTransacoes();
+  });
+
+  // Filtro de Botões
+  elementos.filtroBotoes.forEach(button => {
+    button.addEventListener('click', (e) => {
+      elementos.filtroBotoes.forEach(btn => btn.classList.remove('active'));
+      e.target.classList.add('active');
+      filtroAtual = e.target.dataset.filtro;
+      carregarTransacoes();
+    });
+  });
+
+  // Mudança do Tipo (Ganho/Gasto)
+  if(elementos.tipoSelect) elementos.tipoSelect.addEventListener("change", () => {
+      carregarCategorias();
+      const tipo = elementos.tipoSelect.value;
+      if (tipo === 'ganho') {
+          if(elementos.campoMeta) elementos.campoMeta.style.display = 'block';
+      } else {
+          if(elementos.campoMeta) elementos.campoMeta.style.display = 'none';
+      }
+      document.getElementById("meta-selecionada").value = ""; 
+      elementos.categoriaSelect.value = "";
+  });
+
+// Event listeners para o modal
+  if(elementos.btnConfirmar) elementos.btnConfirmar.addEventListener('click', () => {
+    if (transacaoParaExcluirId !== null) {
+      excluirTransacao(transacaoParaExcluirId);
+      if(elementos.modalContainer) elementos.modalContainer.style.display = 'none';
+      transacaoParaExcluirId = null;
+    }
+  });
+  if(elementos.btnCancelar) elementos.btnCancelar.addEventListener('click', () => {
+    if(elementos.modalContainer) elementos.modalContainer.style.display = 'none';
+    transacaoParaExcluirId = null;
+  });
+
+  // Event listener para os botões de editar e excluir na lista de transações
+  if(elementos.listaTransacoes) elementos.listaTransacoes.addEventListener('click', (e) => {
+      const target = e.target.closest('i');
+      if (!target) return;
+      
+      const action = target.dataset.action;
+      const id = parseInt(target.dataset.id, 10);
+      if (action === 'editar') {
+          editarTransacao(id);
+      } else if (action === 'excluir') {
+          confirmarExclusao(id);
+      }
+  });
+
+  // Event listener global para sincronização
+  window.addEventListener('storage', () => {
+    carregarMetasParaTransacoes();
+    carregarTransacoes();
+    idioma = localStorage.getItem('idioma') || 'pt';
+    moeda = localStorage.getItem('moeda') || 'Kz';
+    aplicarIdioma();
+  });
+  
+  // Inicialização da página
+  aplicarIdioma();
+  carregarTransacoes();
+
+  // Define o estado inicial do campo Meta (padrão é Gasto/oculto)
+  const tipoInicial = elementos.tipoSelect ? elementos.tipoSelect.value : 'gasto';
+  if (tipoInicial === 'ganho') {
+    if(elementos.campoMeta) elementos.campoMeta.style.display = 'block';
+  } else {
+    if(elementos.campoMeta) elementos.campoMeta.style.display = 'none';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.body.classList.add('page-transition');
+  });
+</script>
+<script>
+// ===========================
+// FEEDBACK GLOBAL SUAVE E REALISTA
+// ===========================
+let audioCtx;
+if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function tocarSom(frequencia = 400, duracao = 0.15, volume = 0.15) {
+  if (localStorage.getItem('som') !== 'true') return;
+
+  const osc = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
+
+  // --- Som digital mais suave e limpo ---
+  osc.type = 'triangle'; // som mais moderno e agradável
+  osc.frequency.setValueAtTime(frequencia, audioCtx.currentTime);
+
+  gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duracao); // fade-out suave
+
+  osc.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+
+  osc.start();
+  osc.stop(audioCtx.currentTime + duracao);
+}
+
+function vibrar(duracao = 30) {
+  if (localStorage.getItem('vibracao') === 'true' && navigator.vibrate) {
+    navigator.vibrate(duracao);
+  }
+}
+
+function aplicarFeedbackRealista(el) {
+  if (el.dataset.feedbackInit) return;
+  el.dataset.feedbackInit = 'true';
+
+  const tag = el.tagName.toLowerCase();
+  const type = el.type ? el.type.toLowerCase() : '';
+
+  // Configurações padrão
+  let freqDown = 400, durDown = 0.1, vibDown = 30;
+  let freqUp = 430, durUp = 0.1, vibUp = 20;
+
+  // Ajustes por tipo de elemento
+  if (type === 'checkbox' || type === 'radio') {
+    freqDown = 440; durDown = 0.08; vibDown = 25;
+    freqUp = 480; durUp = 0.08; vibUp = 15;
+  } else if (tag === 'button' || el.classList.contains('btn')) {
+    freqDown = 380; durDown = 0.12; vibDown = 40;
+    freqUp = 420; durUp = 0.1; vibUp = 25;
+  } else if (type === 'range') {
+    freqDown = 300; durDown = 0.05; vibDown = 10;
+    freqUp = 330; durUp = 0.05; vibUp = 5;
+  } else if (tag === 'select') {
+    freqDown = 360; durDown = 0.08; vibDown = 20;
+    freqUp = 390; durUp = 0.08; vibUp = 15;
+  } else if (tag === 'a') {
+    freqDown = 400; durDown = 0.1; vibDown = 30;
+    freqUp = 440; durUp = 0.1; vibUp = 20;
+  }
+
+  // Som e vibração ao pressionar
+  el.addEventListener('mousedown', () => { tocarSom(freqDown, durDown); vibrar(vibDown); });
+  el.addEventListener('touchstart', () => { tocarSom(freqDown, durDown); vibrar(vibDown); }, { passive: true });
+
+  // Som e vibração ao soltar
+  el.addEventListener('mouseup', () => { tocarSom(freqUp, durUp); vibrar(vibUp); });
+  el.addEventListener('touchend', () => { tocarSom(freqUp, durUp); vibrar(vibUp); });
+
+  // Checkbox e radio: som específico ao alterar valor
+  if (type === 'checkbox' || type === 'radio') {
+    el.addEventListener('change', () => {
+      const ativo = el.checked;
+      tocarSom(ativo ? 500 : 370, 0.15, 0.18);
+      vibrar(ativo ? 30 : 20);
+    });
+  }
+
+  // Slider range: feedback contínuo proporcional
+  if (type === 'range') {
+    let lastValue = el.value;
+    el.addEventListener('input', () => {
+      const delta = Math.abs(el.value - lastValue);
+      if (delta > 0) {
+        const freq = 320 + delta * 5;
+        const vib = Math.min(40, delta * 4);
+        tocarSom(freq, 0.04, 0.12);
+        vibrar(vib);
+        lastValue = el.value;
+      }
+    });
+  }
+
+  // Select: feedback ao abrir/fechar
+  if (tag === 'select') {
+    el.addEventListener('mousedown', () => { tocarSom(350, 0.1, 0.15); vibrar(15); });
+    el.addEventListener('change', () => { tocarSom(420, 0.1, 0.15); vibrar(20); });
+  }
+}
+
+function initFeedbackGlobalRealista() {
+  const selectors = 'button, input[type="checkbox"], input[type="radio"], input[type="range"], select, [role="button"], .btn, .switch input, a';
+  
+  // Aplica feedback nos elementos já existentes
+  document.querySelectorAll(selectors).forEach(aplicarFeedbackRealista);
+
+  // Observa DOM para elementos adicionados dinamicamente
+  const observer = new MutationObserver(() => {
+    document.querySelectorAll(selectors).forEach(aplicarFeedbackRealista);
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+document.addEventListener('DOMContentLoaded', initFeedbackGlobalRealista);
+</script>
+</body>
+</html>

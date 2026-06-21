@@ -1,0 +1,1137 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="assets/fontawesome/css/all.min.css"> 
+  <title>FinanceFlow - Início</title>
+
+
+<style>
+    @font-face {
+      font-family: 'Nunito';
+      src: url('assets/fontes/Nunito-VariableFont_wght.ttf') format('truetype');
+      font-weight: 100 900;
+    }
+    @font-face {
+      font-family: 'Nunito-Italic';
+      src: url('assets/fontes/Nunito-italic-VariableFont_wght.ttf') format('truetype');
+      font-style: italic;
+      font-weight: 100 900;
+    }
+
+    /* ---------------------------------------------------- */
+    /* Variáveis - ATUALIZADAS para Ganhos/Gastos e Cores */
+    /* ---------------------------------------------------- */
+    :root {
+      --cor-fundo-claro: #F4F7F9;
+      --cor-fundo-escuro: #203A43;
+      --cor-card-claro: #fff;
+      --cor-card-escuro: #2C3E50;
+      --cor-texto-claro: #333;
+      --cor-texto-escuro: #fff;
+      --cor-header-claro: #f4f7f9;
+      --cor-header-escuro: #203a43;
+      --cor-destaque: #1abc9c; /* Cor principal (para Saldo/Botões) */
+      --cor-secundaria-claro: #f0f0f0;
+      --cor-secundaria-escuro: #34495e;
+      --cor-ganho: #28a745; /* VERDE: Para ganhos/receitas */
+      --cor-gasto: #dc3545; /* VERMELHO: Para gastos/despesas */
+      --cor-aviso: #ffc107; /* Amarelo/Aviso */
+      --sombra: 0 4px 10px rgba(0,0,0,0.1);
+      --sombra-card-total: 0 6px 15px rgba(26, 188, 156, 0.4);
+    }
+
+    /* ---------------------------------------------------- */
+    /* Base e Transições */
+    /* ---------------------------------------------------- */
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      /* Melhorando a experiência móvel */
+      -webkit-tap-highlight-color: transparent; 
+    }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cor-fundo-claro);
+      color: var(--cor-texto-claro);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-size: 16px; 
+      transition: background 0.4s, color 0.4s;
+    }
+    body.dark {
+      background: var(--cor-fundo-escuro);
+      color: var(--cor-texto-escuro);
+    }
+    
+    header {
+      background: var(--cor-header-claro);
+      color: var(--cor-texto-claro);
+      padding: 18px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: background 0.4s, color 0.4s;
+    }
+    body.dark header {
+      background: var(--cor-header-escuro);
+      color: var(--cor-texto-escuro);
+    }
+
+    main { 
+      flex: 1; 
+      padding: 22px; 
+      padding-bottom: 90px; 
+    }
+
+    .page-transition { animation: fadein 0.5s ease-in-out; }
+    .page-exit { animation: fadeout 0.5s ease-in-out forwards; }
+
+    @keyframes fadein {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes fadeout {
+      from { opacity: 1; transform: scale(1); }
+      to { opacity: 0; transform: scale(0.95); }
+    }
+
+    /* ---------------------------------------------------- */
+    /* Cartões e Resumo (Home Específico) */
+    /* ---------------------------------------------------- */
+    .resumo {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .card {
+      background: var(--cor-card-claro);
+      color: var(--cor-texto-claro);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--sombra);
+      transition: background 0.4s, color 0.4s;
+    }
+    body.dark .card {
+      background: var(--cor-card-escuro);
+      color: var(--cor-texto-escuro);
+    }
+
+    /* Saldo Total - Visual Acentuado e Ícones */
+    .card.saldo-total {
+      background: var(--cor-destaque);
+      color: #fff;
+      box-shadow: var(--sombra-card-total);
+      position: relative;
+    }
+    .card.saldo-total h2 { 
+        font-size: 1.1em; 
+        margin-bottom: 12px; 
+        display: flex;
+        align-items: center;
+    }
+    .card.saldo-total h2 i {
+        font-size: 1.2em;
+        margin-right: 10px;
+    }
+    .card.saldo-total .valor-total { 
+        font-size: 2.5em;
+        font-weight: 800; 
+    }
+    
+    /* Mini Cards (Ganhos/Gastos) */
+    .card-resumo-mes {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .card-resumo-mes .mini-card {
+      flex: 1;
+      text-align: center;
+      padding: 15px;
+      border-radius: 10px;
+      background: var(--cor-secundaria-claro);
+      transition: background 0.4s;
+      border: 1px solid rgba(0,0,0,0.05); 
+    }
+    body.dark .mini-card { 
+        background: var(--cor-secundaria-escuro); 
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .mini-card h3 { 
+        font-size: 0.9em; 
+        margin-bottom: 5px; 
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    body.dark .mini-card h3 { color: #bbb; }
+    
+    .mini-card h3 i { margin-right: 5px; }
+
+    .mini-card p { font-size: 1.2em; font-weight: bold; }
+    /* Cores das Variáveis aplicadas ao texto */
+    .ganho { color: var(--cor-ganho); font-weight: bold; } 
+    .gasto { color: var(--cor-gasto); font-weight: bold; }
+    
+    /* Gráfico */
+    .grafico-resumo {
+      background: var(--cor-card-claro);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--sombra);
+      transition: background 0.4s, color 0.4s;
+      /* CORREÇÃO: Define uma altura fixa para evitar o crescimento descontrolado */
+      height: 300px; 
+    }
+    body.dark .grafico-resumo { background: var(--cor-card-escuro); color: var(--cor-texto-escuro); }
+    .grafico-resumo h3 {
+        font-size: 1.1em;
+        margin-bottom: 15px;
+    }
+    
+    /* Últimas Transações */
+    .transacoes {
+        background: var(--cor-card-claro);
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: var(--sombra);
+        transition: background 0.4s, color 0.4s;
+    }
+    body.dark .transacoes { background: var(--cor-card-escuro); color: var(--cor-texto-escuro); }
+    .transacoes h3 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .transacoes h3 a {
+        font-size: 0.8em;
+        font-weight: normal;
+        color: var(--cor-destaque);
+        text-decoration: none;
+    }
+    .transacoes ul { list-style: none; padding: 0; }
+    .transacoes li { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        padding: 12px 0; 
+        border-bottom: 1px solid #eee; 
+        font-size: 0.95em; 
+        gap: 10px;
+        transition: background 0.2s; 
+    }
+    body.dark .transacoes li { border-bottom: 1px solid #555; }
+    .transacoes li:last-child { border-bottom: none; }
+    .transacoes li:hover { background: var(--cor-secundaria-claro); padding-left: 5px; border-radius: 4px; }
+    body.dark .transacoes li:hover { background: var(--cor-secundaria-escuro); }
+
+    .transacoes .info { flex: 1; }
+    .transacoes .info span:first-child { 
+        font-weight: 600; 
+        display: block;
+        margin-bottom: 2px;
+    }
+    .transacoes .info .categoria { font-size: 0.8em; color: #666; }
+    body.dark .transacoes .info .categoria { color:#bbb; }
+
+    /* ---------------------------------------------------- */
+    /* Footer, Botões e Empty State */
+    /* ---------------------------------------------------- */
+    .footer { 
+        position: fixed; 
+        bottom: 0; 
+        left: 0; 
+        width: 100%; 
+        background: var(--cor-header-escuro); 
+        display: flex; 
+        justify-content: space-around; 
+        padding: 10px 0; 
+        color: #fff; 
+        font-family: 'Nunito', sans-serif; 
+        border-top: 1px solid rgba(255,255,255,0.1); 
+        z-index: 999;
+    }
+    .footer .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; color: #bbb; flex: 1; transition: 0.3s; cursor: pointer; }
+    .footer .nav-item i { font-size: 20px; margin-bottom: 4px; }
+    .footer .nav-item.active { color: var(--cor-destaque); }
+    .footer .nav-item.active i { color: var(--cor-destaque); }
+    .footer .nav-item:hover { color: var(--cor-destaque); }
+    
+    .assinatura { text-align: center; font-size: 11px; margin: 5px 0; color: #666; }
+    body.dark .assinatura { color: #aaa; }
+    
+    .add-btn {
+      position: fixed;
+      bottom: 75px;
+      right: 20px;
+      width: 55px;
+      height: 55px;
+      background: var(--cor-destaque);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+      z-index: 1000;
+    }
+    .add-btn:hover {
+      background: #16a085;
+      transform: scale(1.1);
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #666;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      background: var(--cor-card-claro);
+      border-radius: 12px;
+      box-shadow: var(--sombra);
+    }
+    body.dark .empty-state { color: #bbb; background: var(--cor-card-escuro); }
+    .empty-state h4 { font-size: 1.1em; margin-bottom: 5px; }
+    .empty-state p { font-size: 1em; }
+    .empty-state .fas { font-size: 3em; color: #ccc; }
+    body.dark .empty-state .fas { color: #444; }
+    .empty-state .add-first-btn {
+      background: var(--cor-destaque);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .empty-state .add-first-btn:hover { background: #16a085; }
+
+    /* TOAST - Feedback Moderno */
+    .toast {
+        visibility: hidden;
+        min-width: 250px;
+        background-color: var(--cor-destaque);
+        color: #fff;
+        text-align: center;
+        border-radius: 8px;
+        padding: 16px;
+        position: fixed;
+        z-index: 2000;
+        left: 50%;
+        bottom: 100px;
+        transform: translateX(-50%);
+        font-size: 1em;
+        box-shadow: var(--sombra);
+        opacity: 0;
+        transition: opacity 0.5s, visibility 0.5s, bottom 0.5s;
+    }
+    .toast.show {
+        visibility: visible;
+        opacity: 1;
+        bottom: 80px;
+    }
+    
+    /* Otimização de Responsividade */
+    @media (min-width: 600px) {
+        main {
+            max-width: 900px; 
+            margin: 0 auto;
+        }
+        .card-resumo-mes {
+            flex-direction: row;
+        }
+        /* Ajuste de altura em telas maiores */
+        .grafico-resumo {
+             height: 350px; 
+        }
+    }
+  </style>
+
+</head>
+<body class="page-transition">
+  <header data-i18n="dashboard">Meu Fluxo</header>
+
+  <main>
+    <div id="content-home">
+      <div class="resumo">
+        <div class="card saldo-total">
+          <h2 data-i18n="saldo_total"><i class="fas fa-wallet"></i> Saldo Disponível</h2>
+          <div class="valor-total" id="saldo-total">0</div>
+        </div>
+        
+        <div class="card card-resumo-mes">
+          <div class="mini-card">
+            <h3 data-i18n="receitas_mes"><i class="fas fa-arrow-alt-circle-up" style="color: var(--cor-ganho);"></i> Ganhos (Mês)</h3>
+            <p class="ganho" id="receitas-mes">0</p>
+          </div>
+          <div class="mini-card">
+            <h3 data-i18n="despesas_mes"><i class="fas fa-arrow-alt-circle-down" style="color: var(--cor-gasto);"></i> Gastos (Mês)</h3>
+            <p class="gasto" id="despesas-mes">0</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="grafico-resumo">
+        <h3 data-i18n="grafico_mes" align="center">Meu Desempenho</h3>
+        <canvas id="grafico-barra-resumo"></canvas>
+      </div>
+
+      <div class="transacoes">
+        <h3 data-i18n="ultimas_transacoes">
+            Últimos Movimentos 
+            <a href="#" onclick="navegar('transacoes.html')" data-i18n="ver_todos">Ver Tudo</a>
+        </h3>
+        <ul id="lista-transacoes">
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <a href="#" class="add-btn" onclick="navegar('transacoes.html')"><i class="fas fa-plus"></i></a>
+
+  <footer class="footer">
+    <div class="nav-item active" onclick="navegar('home.html')">
+      <i class="fas fa-home"></i>
+      <span data-i18n="inicio">Início</span>
+    </div>
+    <div class="nav-item" onclick="navegar('transacoes.html')">
+      <i class="fas fa-list-alt"></i>
+      <span data-i18n="historico">Histórico</span>
+    </div>
+    <div class="nav-item" onclick="navegar('relatorios.html')">
+      <i class="fas fa-chart-bar"></i>
+      <span data-i18n="relatorios">Relatórios</span>
+    </div>
+    <div class="nav-item" onclick="navegar('metas.html')">
+        <i class="fas fa-bullseye"></i>
+        <span data-i18n="metas">Metas</span>
+    </div>
+    <div class="nav-item" onclick="navegar('configuracoes.html')">
+      <i class="fas fa-cog"></i>
+      <span data-i18n="configuracoes">Ajustes</span>
+    </div>
+  </footer>
+
+  <div class="assinatura" data-i18n="criador">Criado por Belardino Capessa</div>
+  <div id="toast" class="toast"></div>
+
+  <script src="assets/js/chart.min.js"></script>
+<script>
+    // ----------------------------------------------------
+    // Variáveis e Funções Globais (Consolidadas)
+    // ----------------------------------------------------
+    
+    const STORAGE_CHANGE_EVENT = 'storage-change';
+
+
+// === OBJETO DE TRADUÇÕES (4 Idiomas: PT, EN, ES, FR) ===
+const textos = {
+  pt: {
+    dashboard: "Meu Fluxo",
+    saldo_total: "Saldo Disponível",
+    receitas_mes: "Ganho Total",
+    despesas_mes: "Gasto Total",
+    grafico_mes: "Meu Desempenho",
+    ultimas_transacoes: "Últimos Movimentos",
+    nenhuma_transacao_titulo: "Ops! Nada aqui ainda.",
+    nenhuma_transacao_descricao: "Comece adicionando o dinheiro que entra (Ganho) ou sai (Gasto).",
+    adicionar_transacao: "Começar Agora",
+    ver_todos: "Ver Tudo",
+    criador: "Criado por Belardino Capessa",
+    inicio: "Início",
+    historico: "Movimentos",
+    relatorios: "Relatórios",
+    metas: "Metas",
+    configuracoes: "Ajustes",
+  },
+  en: {
+    dashboard: "My Flow",
+    saldo_total: "Total Balance",
+    receitas_mes: "Income (Month)",
+    despesas_mes: "Expense (Month)",
+    grafico_mes: "Performance",
+    ultimas_transacoes: "Latest Activity",
+    nenhuma_transacao_titulo: "No Data Yet.",
+    nenhuma_transacao_descricao: "Start by adding money in (Income) or out (Expense).",
+    adicionar_transacao: "Start Now",
+    ver_todos: "See All",
+    criador: "Created by Belardino Capessa",
+    inicio: "Home",
+    historico: "Movements",
+    relatorios: "Reports",
+    metas: "Goals",
+    configuracoes: "Settings",
+  },
+  es: {
+    dashboard: "Mi Flujo",
+    saldo_total: "Saldo Disponible",
+    receitas_mes: "Ganancia Total",
+    despesas_mes: "Gasto Total",
+    grafico_mes: "Mi Rendimiento",
+    ultimas_transacoes: "Últimos Movimientos",
+    nenhuma_transacao_titulo: "¡Ups! Nada aquí todavía.",
+    nenhuma_transacao_descricao: "Empieza agregando el dinero que entra (Ingreso) o sale (Gasto).",
+    adicionar_transacao: "Comenzar Ahora",
+    ver_todos: "Ver Todo",
+    criador: "Creado por Belardino Capessa",
+    inicio: "Inicio",
+    historico: "Movimientos",
+    relatorios: "Informes",
+    metas: "Metas",
+    configuracoes: "Ajustes",
+  },
+  fr: {
+    dashboard: "Mon Flux",
+    saldo_total: "Solde Disponible",
+    receitas_mes: "Revenu Total",
+    despesas_mes: "Dépense Totale",
+    grafico_mes: "Ma Performance",
+    ultimas_transacoes: "Derniers Mouvements",
+    nenhuma_transacao_titulo: "Oups ! Rien ici pour l’instant.",
+    nenhuma_transacao_descricao: "Commencez par ajouter l’argent qui entre (Revenu) ou qui sort (Dépense).",
+    adicionar_transacao: "Commencer Maintenant",
+    ver_todos: "Voir Tout",
+    criador: "Créé par Belardino Capessa",
+    inicio: "Accueil",
+    historico: "Mouvements",
+    relatorios: "Rapports",
+    metas: "Objectifs",
+    configuracoes: "Paramètres",
+  }
+};
+
+
+// === MAPEAMENTO DE CATEGORIAS (versão multilíngue otimizada) ===
+const categoriasInfo = {
+  // 💸 GASTOS / DESPESAS
+  comida_mercado: { 
+    pt: "Comida e supermercado", 
+    en: "Food and Groceries", 
+    es: "Comida y supermercado", 
+    fr: "Nourriture et supermarché", 
+    icon: "fa-solid fa-utensils" 
+  },
+  aluguel: { 
+    pt: "Aluguel da casa", 
+    en: "House Rent", 
+    es: "Alquiler de casa", 
+    fr: "Loyer de la maison", 
+    icon: "fa-solid fa-house-user" 
+  },
+  contas_casa: { 
+    pt: "Contas domésticas", 
+    en: "Home Bills", 
+    es: "Cuentas domésticas", 
+    fr: "Factures ménagères", 
+    icon: "fa-solid fa-lightbulb" 
+  },
+  internet_telefone: { 
+    pt: "Internet e telefone", 
+    en: "Internet and Phone", 
+    es: "Internet y teléfono", 
+    fr: "Internet et téléphone", 
+    icon: "fa-solid fa-mobile-screen" 
+  },
+  transporte_combustivel: { 
+    pt: "Transporte e combustível", 
+    en: "Transport and Fuel", 
+    es: "Transporte y combustible", 
+    fr: "Transport et carburant", 
+    icon: "fa-solid fa-gas-pump" 
+  },
+  saude_remedios: { 
+    pt: "Saúde e remédios", 
+    en: "Health and Medicine", 
+    es: "Salud y medicinas", 
+    fr: "Santé et médicaments", 
+    icon: "fa-solid fa-heart-pulse" 
+  },
+  beleza_cuidados: { 
+    pt: "Cuidados pessoais", 
+    en: "Personal Care", 
+    es: "Cuidado personal", 
+    fr: "Soins personnels", 
+    icon: "fa-solid fa-spa" 
+  },
+  roupas_calcados: { 
+    pt: "Roupas e calçados", 
+    en: "Clothes and Shoes", 
+    es: "Ropa y calzado", 
+    fr: "Vêtements et chaussures", 
+    icon: "fa-solid fa-shirt" 
+  },
+  educacao_cursos: { 
+    pt: "Educação e formação", 
+    en: "Education and Training", 
+    es: "Educación y formación", 
+    fr: "Éducation et formation", 
+    icon: "fa-solid fa-graduation-cap" 
+  },
+  lazer_diversao: { 
+    pt: "Lazer e diversão", 
+    en: "Leisure and Fun", 
+    es: "Ocio y diversión", 
+    fr: "Loisirs et divertissement", 
+    icon: "fa-solid fa-ticket-simple" 
+  },
+  viagens_ferias: { 
+    pt: "Viagens e férias", 
+    en: "Travel and Vacation", 
+    es: "Viajes y vacaciones", 
+    fr: "Voyages et vacances", 
+    icon: "fa-solid fa-plane" 
+  },
+  pets: { 
+    pt: "Animais de estimação", 
+    en: "Pets", 
+    es: "Mascotas", 
+    fr: "Animaux de compagnie", 
+    icon: "fa-solid fa-paw" 
+  },
+  familia_filhos: { 
+    pt: "Família", 
+    en: "Family", 
+    es: "Familia", 
+    fr: "Famille", 
+    icon: "fa-solid fa-people-group" 
+  },
+  presentes_festas: { 
+    pt: "Presentes e festas", 
+    en: "Gifts and Parties", 
+    es: "Regalos y fiestas", 
+    fr: "Cadeaux et fêtes", 
+    icon: "fa-solid fa-gifts" 
+  },
+  assinaturas_apps: { 
+    pt: "Assinaturas e apps", 
+    en: "Subscriptions and Apps", 
+    es: "Suscripciones y aplicaciones", 
+    fr: "Abonnements et applications", 
+    icon: "fa-solid fa-newspaper" 
+  },
+  impostos_taxas: { 
+    pt: "Impostos e taxas", 
+    en: "Taxes and Fees", 
+    es: "Impuestos y tasas", 
+    fr: "Impôts et taxes", 
+    icon: "fa-solid fa-scale-balanced" 
+  },
+  dividas_emprestimos: { 
+    pt: "Dívidas e empréstimos", 
+    en: "Debts and Loans", 
+    es: "Deudas y préstamos", 
+    fr: "Dettes et prêts", 
+    icon: "fa-solid fa-hand-holding-dollar" 
+  },
+  consertos_manutencao: { 
+    pt: "Consertos e manutenção", 
+    en: "Repairs and Maintenance", 
+    es: "Reparaciones y mantenimiento", 
+    fr: "Réparations et entretien", 
+    icon: "fa-solid fa-screwdriver-wrench" 
+  },
+  doacoes_ajuda: { 
+    pt: "Doações e ajuda", 
+    en: "Donations and Aid", 
+    es: "Donaciones y ayuda", 
+    fr: "Dons et aide", 
+    icon: "fa-solid fa-hand-holding-heart" 
+  },
+  trabalho_negocio: { 
+    pt: "Trabalho e negócios", 
+    en: "Work and Business", 
+    es: "Trabajo y negocios", 
+    fr: "Travail et affaires", 
+    icon: "fa-solid fa-briefcase" 
+  },
+  tecnologia_equipamentos: { 
+    pt: "Equipamentos e tecnologia", 
+    en: "Equipment and Tech", 
+    es: "Equipos y tecnología", 
+    fr: "Équipements et technologie", 
+    icon: "fa-solid fa-laptop" 
+  },
+  seguranca_protecao: { 
+    pt: "Segurança e proteção", 
+    en: "Security and Protection", 
+    es: "Seguridad y protección", 
+    fr: "Sécurité et protection", 
+    icon: "fa-solid fa-shield-halved" 
+  },
+  servicos_domesticos: { 
+    pt: "Serviços domésticos", 
+    en: "Domestic Services", 
+    es: "Servicios domésticos", 
+    fr: "Services domestiques", 
+    icon: "fa-solid fa-broom" 
+  },
+  documentos_burocracia: { 
+    pt: "Documentos e burocracia", 
+    en: "Documents and Bureaucracy", 
+    es: "Documentos y burocracia", 
+    fr: "Documents et bureaucratie", 
+    icon: "fa-solid fa-file-lines" 
+  },
+  outros_gastos: { 
+    pt: "Outros gastos", 
+    en: "Other Expenses", 
+    es: "Otros gastos", 
+    fr: "Autres dépenses", 
+    icon: "fa-solid fa-ellipsis-h" 
+  },
+
+  // 💰 GANHOS / ENTRADAS
+  salario: { 
+    pt: "Salário", 
+    en: "Salary", 
+    es: "Salario", 
+    fr: "Salaire", 
+    icon: "fa-solid fa-money-check-dollar" 
+  },
+  trabalho_extra: { 
+    pt: "Trabalho extra", 
+    en: "Extra Work", 
+    es: "Trabajo extra", 
+    fr: "Travail supplémentaire", 
+    icon: "fa-solid fa-briefcase-clock" 
+  },
+  vendas_produtos: { 
+    pt: "Vendas e serviços", 
+    en: "Sales and Services", 
+    es: "Ventas y servicios", 
+    fr: "Ventes et services", 
+    icon: "fa-solid fa-store" 
+  },
+  lucro_investimentos: { 
+    pt: "Lucros e investimentos", 
+    en: "Investments and Profit", 
+    es: "Inversiones y beneficios", 
+    fr: "Investissements et profits", 
+    icon: "fa-solid fa-chart-line" 
+  },
+  aluguel_recebido: { 
+    pt: "Aluguel recebido", 
+    en: "Rent Received", 
+    es: "Alquiler recibido", 
+    fr: "Loyer reçu", 
+    icon: "fa-solid fa-house-chimney-window" 
+  },
+  presente_dinheiro: { 
+    pt: "Presentes em dinheiro", 
+    en: "Money Gifts", 
+    es: "Regalos en efectivo", 
+    fr: "Cadeaux en argent", 
+    icon: "fa-solid fa-gift" 
+  },
+  premios_sorteios: { 
+    pt: "Prêmios e sorteios", 
+    en: "Prizes and Contests", 
+    es: "Premios y sorteos", 
+    fr: "Prix et concours", 
+    icon: "fa-solid fa-trophy" 
+  },
+  ajuda_familia: { 
+    pt: "Ajuda familiar", 
+    en: "Family Support", 
+    es: "Apoyo familiar", 
+    fr: "Aide familiale", 
+    icon: "fa-solid fa-people-carry-box" 
+  },
+  bolsa_estudo: { 
+    pt: "Bolsa de estudos", 
+    en: "Scholarship", 
+    es: "Beca de estudios", 
+    fr: "Bourse d’études", 
+    icon: "fa-solid fa-book-open-reader" 
+  },
+  reembolso: { 
+    pt: "Reembolso", 
+    en: "Refund", 
+    es: "Reembolso", 
+    fr: "Remboursement", 
+    icon: "fa-solid fa-rotate-left" 
+  },
+  doacoes_recebidas: { 
+    pt: "Doações recebidas", 
+    en: "Donations Received", 
+    es: "Donaciones recibidas", 
+    fr: "Dons reçus", 
+    icon: "fa-solid fa-hand-holding-dollar" 
+  },
+  outros_ganhos: { 
+    pt: "Outros ganhos", 
+    en: "Other Income", 
+    es: "Otros ingresos", 
+    fr: "Autres revenus", 
+    icon: "fa-solid fa-ellipsis-h" 
+  }
+};
+    
+    // Fallback/Padrão (se a categoria for desconhecida)
+    const iconesPadrao = {
+        ganho: 'fa-solid fa-arrow-up',
+        gasto: 'fa-solid fa-arrow-down'
+    };
+
+    // --- UTILS (Funções Globais) ---
+
+    function navegar(pagina) {
+      const body = document.body;
+      body.classList.add('page-exit');
+      setTimeout(() => {
+        window.location.href = pagina;
+      }, 500);
+    }
+    
+    function formatarMoeda(valor) {
+      const moeda = localStorage.getItem("moeda") || "Kz";
+      const idioma = localStorage.getItem('idioma') || 'pt';
+      const locale = (idioma === 'pt') ? 'pt-PT' : 'en-US';
+      const numValor = Number(valor) || 0;
+      
+      return `${moeda} ${numValor.toLocaleString(locale, { minimumFractionDigits: 2 })}`;
+    }
+
+    function aplicarIdioma() {
+      const idioma = localStorage.getItem('idioma') || 'pt';
+      
+      // 1. Tradução Simples (data-i18n)
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (textos[idioma] && textos[idioma][key]) {
+          if (el.tagName !== 'H2' && el.tagName !== 'H3') {
+            el.textContent = textos[idioma][key];
+          }
+        }
+      });
+      
+      // 2. Tradução de Elementos Complexos (com Ícones) - CORRIGIDO com verificação de null
+      const saldoTotalH2 = document.querySelector('.card.saldo-total h2');
+      if (saldoTotalH2) {
+          saldoTotalH2.innerHTML = `<i class="fas fa-wallet"></i> ${textos[idioma].saldo_total}`;
+      }
+
+      const ganhosH3 = document.querySelector('.mini-card:nth-child(1) h3');
+      if (ganhosH3) {
+          ganhosH3.innerHTML = `<i class="fas fa-arrow-alt-circle-up" style="color: var(--cor-ganho);"></i> ${textos[idioma].receitas_mes}`;
+      }
+
+      const gastosH3 = document.querySelector('.mini-card:nth-child(2) h3');
+      if (gastosH3) {
+          gastosH3.innerHTML = `<i class="fas fa-arrow-alt-circle-down" style="color: var(--cor-gasto);"></i> ${textos[idioma].despesas_mes}`;
+      }
+    }
+    
+    function mostrarToast(mensagem, tipo = 'sucesso', duracao = 3000) {
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+
+      let cor = 'var(--cor-destaque)';
+      if (tipo === 'erro') cor = 'var(--cor-gasto)';
+      if (tipo === 'aviso') cor = 'var(--cor-aviso)';
+      
+      toast.textContent = mensagem;
+      toast.style.backgroundColor = cor;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, duracao);
+    }
+    
+    // ----------------------------------------------------
+    // Lógica da Home
+    // ----------------------------------------------------
+    let chartBarra = null;
+    
+    function carregarDadosEcalcular() {
+      const idioma = localStorage.getItem('idioma') || 'pt';
+      const dados = JSON.parse(localStorage.getItem("financeflow")) || { transacoes: [], metas: [] };
+      const hoje = new Date();
+      const primeiroDiaMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1); 
+
+      let saldoTotal = 0;
+      let ganhosMes = 0;
+      let gastosMes = 0;
+
+      dados.transacoes.forEach(t => {
+        const dataTransacao = new Date(t.data + 'T00:00:00');
+        
+        // Padroniza a verificação: 'receita', 'entrada' ou 'ganho'
+        const isGanho = (t.tipo.toLowerCase().includes("receita") || t.tipo.toLowerCase().includes("entrada") || t.tipo.toLowerCase().includes("ganho")); 
+
+        if (isGanho) {
+          saldoTotal += t.valor;
+          if (dataTransacao >= primeiroDiaMes) {
+            ganhosMes += t.valor;
+          }
+        } else {
+          saldoTotal -= t.valor;
+          if (dataTransacao >= primeiroDiaMes) {
+            gastosMes += t.valor;
+          }
+        }
+      });
+      
+      const contentHome = document.getElementById("content-home");
+      const transacoesExistentes = dados.transacoes.length > 0;
+      
+      // Renderização Condicional (Empty State)
+      if (!transacoesExistentes) {
+        contentHome.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-hand-holding-usd"></i>
+            <h4 data-i18n="nenhuma_transacao_titulo">${textos[idioma].nenhuma_transacao_titulo}</h4>
+            <p data-i18n="nenhuma_transacao_descricao">${textos[idioma].nenhuma_transacao_descricao}</p>
+            <a href="#" class="add-first-btn" data-i18n="adicionar_transacao" onclick="navegar('transacoes.html')">${textos[idioma].adicionar_transacao}</a>
+          </div>
+        `;
+        aplicarIdioma();
+        return; 
+      } 
+      
+      // Se houver dados (garantindo que os elementos existem fora do Empty State)
+      const saldoEl = document.getElementById("saldo-total");
+      const receitasEl = document.getElementById("receitas-mes");
+      const despesasEl = document.getElementById("despesas-mes");
+
+      if (saldoEl) saldoEl.textContent = formatarMoeda(saldoTotal);
+      if (receitasEl) receitasEl.textContent = formatarMoeda(ganhosMes);
+      if (despesasEl) despesasEl.textContent = formatarMoeda(gastosMes);
+
+
+      if (document.getElementById("grafico-barra-resumo")) {
+          renderChart(ganhosMes, gastosMes);
+      }
+      
+      // Renderiza as transações (Últimas 5)
+      const lista = document.getElementById("lista-transacoes");
+      if (lista) {
+        lista.innerHTML = "";
+        const transacoesInvertidas = [...dados.transacoes].sort((a, b) => new Date(b.data) - new Date(a.data));
+        const ultimas = transacoesInvertidas.slice(0, 4);
+
+        if (ultimas.length === 0) {
+             lista.innerHTML = `<li style="text-align:center; color:#999;">${textos[idioma].nenhuma_transacao_titulo}</li>`;
+        } else {
+            ultimas.forEach(t => {
+              const isGanho = (t.tipo.toLowerCase().includes("receita") || t.tipo.toLowerCase().includes("entrada") || t.tipo.toLowerCase().includes("ganho")); 
+              const tipoClasse = isGanho ? 'ganho' : 'gasto'; 
+              const tipoSimbolo = isGanho ? "+" : "-";
+
+              // Busca a informação da categoria (chave minúscula)
+              const categoriaChave = t.categoria ? t.categoria.toLowerCase() : 'outros_gastos';
+              
+              const infoCategoria = categoriasInfo[categoriaChave];
+              
+              // Define o ícone e o nome da categoria com base no novo mapeamento
+              let icone = infoCategoria ? infoCategoria.icon : (isGanho ? iconesPadrao.ganho : iconesPadrao.gasto);
+              let categoriaTraduzida = infoCategoria ? infoCategoria[idioma] : t.categoria; 
+
+              const dataFormatada = new Date(t.data + 'T00:00:00').toLocaleDateString(idioma === 'pt' ? 'pt-PT' : 'en-US', { month: 'short', day: 'numeric' });
+
+              const li = document.createElement("li");
+              // Adicionamos a classe 'icone-categoria' para um estilo limpo (se você adicionar ao seu CSS)
+              li.innerHTML = `
+                <i class="${icone}" style="font-size: 1.2em; color: ${isGanho ? 'var(--cor-ganho)' : 'var(--cor-gasto)'}; width: 25px; text-align:center;"></i>
+                <div class="info">
+                  <span>${t.descricao}</span>
+                  <span class="categoria">${categoriaTraduzida} - ${dataFormatada}</span>
+                </div>
+                <span class="${tipoClasse}">
+                  ${tipoSimbolo} ${formatarMoeda(t.valor)}
+                </span>
+              `;
+              lista.appendChild(li);
+            });
+        }
+      }
+    }
+
+    function renderChart(ganhos, gastos) {
+      if (chartBarra) { chartBarra.destroy(); }
+      
+      const ctx = document.getElementById("grafico-barra-resumo");
+      if (!ctx) return; 
+      
+      const idioma = localStorage.getItem('idioma') || 'pt';
+      
+      chartBarra = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: [textos[idioma].receitas_mes, textos[idioma].despesas_mes], 
+          datasets: [{
+            label: localStorage.getItem("moeda") || "Kz",
+            data: [ganhos, gastos],
+            backgroundColor: [getComputedStyle(document.documentElement).getPropertyValue('--cor-ganho'), getComputedStyle(document.documentElement).getPropertyValue('--cor-gasto')] 
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false, 
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: { 
+              beginAtZero: true,
+              ticks: {
+                callback: function(value, index, values) {
+                  return formatarMoeda(value);
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const tema = localStorage.getItem("tema") || "light";
+      if (tema === "dark") document.body.classList.add("dark");
+      
+      aplicarIdioma();
+      carregarDadosEcalcular(); 
+    });
+
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'idioma' || e.key === 'moeda' || e.key === 'financeflow' || e.key === 'tema') {
+        aplicarIdioma();
+        carregarDadosEcalcular();
+      }
+    });
+  </script>
+  <script>
+// ===========================
+// FEEDBACK GLOBAL SUAVE E REALISTA
+// ===========================
+let audioCtx;
+if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function tocarSom(frequencia = 400, duracao = 0.15, volume = 0.15) {
+  if (localStorage.getItem('som') !== 'true') return;
+
+  const osc = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
+
+  // --- Som digital mais suave e limpo ---
+  osc.type = 'triangle'; // som mais moderno e agradável
+  osc.frequency.setValueAtTime(frequencia, audioCtx.currentTime);
+
+  gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duracao); // fade-out suave
+
+  osc.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+
+  osc.start();
+  osc.stop(audioCtx.currentTime + duracao);
+}
+
+function vibrar(duracao = 30) {
+  if (localStorage.getItem('vibracao') === 'true' && navigator.vibrate) {
+    navigator.vibrate(duracao);
+  }
+}
+
+function aplicarFeedbackRealista(el) {
+  if (el.dataset.feedbackInit) return;
+  el.dataset.feedbackInit = 'true';
+
+  const tag = el.tagName.toLowerCase();
+  const type = el.type ? el.type.toLowerCase() : '';
+
+  // Configurações padrão
+  let freqDown = 400, durDown = 0.1, vibDown = 30;
+  let freqUp = 430, durUp = 0.1, vibUp = 20;
+
+  // Ajustes por tipo de elemento
+  if (type === 'checkbox' || type === 'radio') {
+    freqDown = 440; durDown = 0.08; vibDown = 25;
+    freqUp = 480; durUp = 0.08; vibUp = 15;
+  } else if (tag === 'button' || el.classList.contains('btn')) {
+    freqDown = 380; durDown = 0.12; vibDown = 40;
+    freqUp = 420; durUp = 0.1; vibUp = 25;
+  } else if (type === 'range') {
+    freqDown = 300; durDown = 0.05; vibDown = 10;
+    freqUp = 330; durUp = 0.05; vibUp = 5;
+  } else if (tag === 'select') {
+    freqDown = 360; durDown = 0.08; vibDown = 20;
+    freqUp = 390; durUp = 0.08; vibUp = 15;
+  } else if (tag === 'a') {
+    freqDown = 400; durDown = 0.1; vibDown = 30;
+    freqUp = 440; durUp = 0.1; vibUp = 20;
+  }
+
+  // Som e vibração ao pressionar
+  el.addEventListener('mousedown', () => { tocarSom(freqDown, durDown); vibrar(vibDown); });
+  el.addEventListener('touchstart', () => { tocarSom(freqDown, durDown); vibrar(vibDown); }, { passive: true });
+
+  // Som e vibração ao soltar
+  el.addEventListener('mouseup', () => { tocarSom(freqUp, durUp); vibrar(vibUp); });
+  el.addEventListener('touchend', () => { tocarSom(freqUp, durUp); vibrar(vibUp); });
+
+  // Checkbox e radio: som específico ao alterar valor
+  if (type === 'checkbox' || type === 'radio') {
+    el.addEventListener('change', () => {
+      const ativo = el.checked;
+      tocarSom(ativo ? 500 : 370, 0.15, 0.18);
+      vibrar(ativo ? 30 : 20);
+    });
+  }
+
+  // Slider range: feedback contínuo proporcional
+  if (type === 'range') {
+    let lastValue = el.value;
+    el.addEventListener('input', () => {
+      const delta = Math.abs(el.value - lastValue);
+      if (delta > 0) {
+        const freq = 320 + delta * 5;
+        const vib = Math.min(40, delta * 4);
+        tocarSom(freq, 0.04, 0.12);
+        vibrar(vib);
+        lastValue = el.value;
+      }
+    });
+  }
+
+  // Select: feedback ao abrir/fechar
+  if (tag === 'select') {
+    el.addEventListener('mousedown', () => { tocarSom(350, 0.1, 0.15); vibrar(15); });
+    el.addEventListener('change', () => { tocarSom(420, 0.1, 0.15); vibrar(20); });
+  }
+}
+
+function initFeedbackGlobalRealista() {
+  const selectors = 'button, input[type="checkbox"], input[type="radio"], input[type="range"], select, [role="button"], .btn, .switch input, a';
+  
+  // Aplica feedback nos elementos já existentes
+  document.querySelectorAll(selectors).forEach(aplicarFeedbackRealista);
+
+  // Observa DOM para elementos adicionados dinamicamente
+  const observer = new MutationObserver(() => {
+    document.querySelectorAll(selectors).forEach(aplicarFeedbackRealista);
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+document.addEventListener('DOMContentLoaded', initFeedbackGlobalRealista);
+</script>
+  </body>
+</html>
