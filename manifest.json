@@ -37,12 +37,12 @@
   "screenshots": [
     {
       "src": "assets/screenshots/screen-1.jpg",
-      "sizes": "1080x1920",
+      "sizes": "717x1491",
       "type": "image/jpg"
     },
     {
       "src": "assets/screenshots/screen-2.jpg",
-      "sizes": "1080x1920",
+      "sizes": "717x1491",
       "type": "image/jpg"
     }
   ],
