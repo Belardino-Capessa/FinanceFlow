@@ -3,7 +3,7 @@
 
   "name": "FinanceFlow",
   "short_name": "FinanceFlow",
-  "description": "FinanceFlow é um aplicativo de controle financeiro intuitivo que permite registrar receitas e despesas, acompanhar saldo, gerar gráficos e relatórios de forma prática e eficiente.",
+  "description": "Aplicativo de controle financeiro para registrar receitas, despesas, acompanhar saldo e gerar relatórios de forma simples e eficiente.",
 
   "start_url": "./index.html",
   "scope": "./",
@@ -37,13 +37,7 @@
       "src": "assets/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "assets/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
   ],
 
@@ -65,33 +59,6 @@
       "sizes": "718x1488",
       "type": "image/jpeg",
       "form_factor": "wide"
-    }
-  ],
-
-  "shortcuts": [
-    {
-      "name": "Adicionar Receita",
-      "short_name": "Receita",
-      "description": "Adicionar nova receita rapidamente",
-      "url": "./index.html#receita",
-      "icons": [
-        {
-          "src": "assets/icons/icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
-    {
-      "name": "Adicionar Despesa",
-      "short_name": "Despesa",
-      "description": "Adicionar nova despesa rapidamente",
-      "url": "./index.html#despesa",
-      "icons": [
-        {
-          "src": "assets/icons/icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
     }
   ]
 }
