@@ -3,7 +3,7 @@
 
   "name": "FinanceFlow",
   "short_name": "FinanceFlow",
-  "description": "Aplicativo de controle financeiro para registrar receitas, despesas, acompanhar saldo e gerar relatórios de forma simples e eficiente.",
+  "description": "FinanceFlow é um aplicativo de controle financeiro intuitivo para registrar receitas, despesas, acompanhar saldo e gerar relatórios.",
 
   "start_url": "./index.html",
   "scope": "./",
@@ -11,7 +11,8 @@
   "display": "standalone",
   "display_override": [
     "standalone",
-    "minimal-ui"
+    "minimal-ui",
+    "browser"
   ],
 
   "background_color": "#111827",
@@ -20,11 +21,6 @@
   "orientation": "portrait",
   "lang": "pt",
   "dir": "ltr",
-
-  "prefer_related_applications": false,
-  "related_applications": [],
-
-  "iarc_rating_id": "e6c3f9c1-2a1d-4c5b-9c7a-123456789abc",
 
   "icons": [
     {
@@ -41,12 +37,6 @@
     }
   ],
 
-  "categories": [
-    "finance",
-    "productivity",
-    "business"
-  ],
-
   "screenshots": [
     {
       "src": "assets/screenshots/screen-1.jpg",
@@ -56,9 +46,49 @@
     },
     {
       "src": "assets/screenshots/screen-2.jpg",
-      "sizes": "718x1488",
+      "sizes": "1920x1080",
       "type": "image/jpeg",
       "form_factor": "wide"
     }
+  ],
+
+  "shortcuts": [
+    {
+      "name": "Adicionar Receita",
+      "short_name": "Receita",
+      "description": "Adicionar nova receita rapidamente",
+      "url": "./index.html#receita",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Adicionar Despesa",
+      "short_name": "Despesa",
+      "description": "Adicionar nova despesa rapidamente",
+      "url": "./index.html#despesa",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+
+  "prefer_related_applications": false,
+  "related_applications": [],
+
+  "iarc_rating_id": "e6c3f9c1-2a1d-4c5b-9c7a-123456789abc",
+
+  "categories": [
+    "finance",
+    "productivity",
+    "business"
   ]
 }
