@@ -36,12 +36,12 @@
 
   "screenshots": [
     {
-      "src": "assets/screenshots/screen1.png",
+      "src": "assets/screenshots/screen-1.jpg",
       "sizes": "1080x1920",
       "type": "image/png"
     },
     {
-      "src": "assets/screenshots/screen2.png",
+      "src": "assets/screenshots/screen-2.jpg",
       "sizes": "1080x1920",
       "type": "image/png"
     }
