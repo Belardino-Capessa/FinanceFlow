@@ -1,6 +1,6 @@
 const CACHE_NAME = "financeflow-v1";
 
-const FILES_TO_CACHE = [
+const ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
@@ -8,17 +8,17 @@ const FILES_TO_CACHE = [
   "./assets/icons/icon-512.png"
 ];
 
-// INSTALL
+// INSTALL - cache inicial
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(FILES_TO_CACHE);
+      return cache.addAll(ASSETS);
     })
   );
   self.skipWaiting();
 });
 
-// ACTIVATE
+// ACTIVATE - limpar cache antigo
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -34,11 +34,9 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// FETCH (OFFLINE FIRST)
+// FETCH - offline support
 self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      return cached || fetch(event.request);
-    })
+    fetch(event.request).catch(() => caches.match(event.request))
   );
 });
