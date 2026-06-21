@@ -1,0 +1,76 @@
+{
+  "name": "FinanceFlow",
+  "short_name": "FinanceFlow",
+  "description": "FinanceFlow é um aplicativo de controle financeiro intuitivo que permite registrar receitas e despesas, acompanhar saldo, gerar gráficos e relatórios de forma prática e eficiente.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#22c55e",
+  "orientation": "portrait",
+  "lang": "pt",
+  "dir": "ltr",
+
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+
+  "categories": ["finance", "productivity", "business"],
+
+  "screenshots": [
+    {
+      "src": "assets/screenshots/screen1.png",
+      "sizes": "1080x1920",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/screenshots/screen2.png",
+      "sizes": "1080x1920",
+      "type": "image/png"
+    }
+  ],
+
+  "shortcuts": [
+    {
+      "name": "Adicionar Receita",
+      "short_name": "Receita",
+      "description": "Adicionar nova receita rapidamente",
+      "url": "./index.html#receita",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Adicionar Despesa",
+      "short_name": "Despesa",
+      "description": "Adicionar nova despesa rapidamente",
+      "url": "./index.html#despesa",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
